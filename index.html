@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GlanzWerkstatt Alzey | Fahrzeugaufbereitung & KFZ-Service</title>
+  <meta name="description" content="GlanzWerkstatt Alzey - Fahrzeugaufbereitung, Lackpflege, Reifenservice und KFZ-Service in Alzey." />
+  <link rel="icon" href="assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #05070a;
+      --soft: #0a0d12;
+      --panel: rgba(16,20,27,.92);
+      --panel-strong: rgba(21,26,35,.96);
+      --text: #f8f5ea;
+      --muted: #aeb7c5;
+      --line: rgba(255,255,255,.14);
+      --gold: #d8b86f;
+      --gold-bright: #ffe2a0;
+      --gold-soft: rgba(216,184,111,.18);
+      --cyan: #8ce7ff;
+      --max: 1220px;
+      --shadow: 0 30px 90px rgba(0,0,0,.45);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 4%, rgba(216,184,111,.16), transparent 18%),
+        radial-gradient(circle at 0% 28%, rgba(65,230,255,.11), transparent 28%),
+        radial-gradient(circle at 92% 86%, rgba(70,58,140,.2), transparent 34%),
+        linear-gradient(180deg, #070b14 0%, #050912 44%, #03060c 100%);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.038) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.038) 1px, transparent 1px),
+        linear-gradient(rgba(216,184,111,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(216,184,111,.04) 1px, transparent 1px);
+      background-size: 64px 64px, 64px 64px, 192px 192px, 192px 192px;
+      background-position: 0 0, 0 0, -1px -1px, -1px -1px;
+      mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.92) 72%, rgba(0,0,0,.7) 100%);
+      z-index: -1;
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: auto -18% -34% -10%;
+      height: 82vh;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 10% 70%, rgba(216,184,111,.22), transparent 46%),
+        radial-gradient(ellipse at 82% 80%, rgba(63,57,135,.22), transparent 48%),
+        linear-gradient(45deg, rgba(216,184,111,.16), rgba(88,95,110,.06) 52%, transparent 78%);
+      filter: blur(42px);
+      opacity: .74;
+      z-index: -1;
+      animation: goldFade 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes goldFade {
+      from { transform: translate3d(-2%, 2%, 0); opacity: .68; }
+      to { transform: translate3d(4%, -4%, 0); opacity: .9; }
+    }
+    @keyframes goldSweep {
+      0% { transform: translateX(-135%) skewX(-16deg); opacity: 0; }
+      18% { opacity: .7; }
+      46%, 100% { transform: translateX(135%) skewX(-16deg); opacity: 0; }
+    }
+    @keyframes buttonGlow {
+      0%, 100% { box-shadow: 0 16px 45px rgba(216,184,111,.24), inset 0 1px 0 rgba(255,255,255,.28); }
+      50% { box-shadow: 0 22px 72px rgba(216,184,111,.42), inset 0 1px 0 rgba(255,255,255,.42); }
+    }
+    @keyframes heroPulse {
+      0%, 100% { filter: brightness(.82) contrast(1.08) saturate(1.12); transform: scale(1); }
+      50% { filter: brightness(.94) contrast(1.14) saturate(1.2); transform: scale(1.018); }
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    section { padding: 96px 0; }
+    .container { width: min(var(--max), calc(100vw - 34px)); margin: auto; }
+    .serif { font-family: Cinzel, Georgia, serif; }
+    .gold { color: var(--gold-bright); }
+
+    .nav {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(var(--max), calc(100vw - 26px));
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 10px 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(5,8,14,.92);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 18px 60px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.08);
+      transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
+    }
+    .nav:hover {
+      border-color: rgba(216,184,111,.36);
+      background: rgba(5,8,14,.97);
+      box-shadow: 0 24px 80px rgba(0,0,0,.38), 0 0 42px rgba(216,184,111,.11), inset 0 1px 0 rgba(255,255,255,.12);
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: max-content;
+      font-weight: 900;
+    }
+    .brand-mark {
+      width: 54px;
+      height: 54px;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 50%;
+      overflow: hidden;
+      background: #05070a;
+      box-shadow: 0 0 26px rgba(216,184,111,.2);
+      transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+    }
+    .brand-mark img { width: 100%; height: 100%; object-fit: cover; }
+    .brand:hover .brand-mark {
+      transform: rotate(-3deg) scale(1.05);
+      border-color: rgba(216,184,111,.42);
+      box-shadow: 0 0 34px rgba(216,184,111,.34);
+    }
+    .brand span {
+      font-family: Cinzel, Georgia, serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--gold-bright);
+    }
+    .links { display: flex; gap: 5px; align-items: center; }
+    .links a {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 850;
+      padding: 10px 12px;
+      border-radius: 999px;
+      transition: .22s ease;
+    }
+    .links a:hover {
+      background: rgba(216,184,111,.13);
+      color: #fff;
+      box-shadow: inset 0 0 0 1px rgba(216,184,111,.2), 0 10px 28px rgba(216,184,111,.08);
+    }
+    .btn {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 0;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 14px 20px;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+      color: #130f07;
+      box-shadow: 0 16px 45px rgba(216,184,111,.24), inset 0 1px 0 rgba(255,255,255,.28);
+      transition: transform .22s ease, box-shadow .22s ease, filter .22s ease;
+      animation: buttonGlow 4.2s ease-in-out infinite;
+    }
+    .btn::before {
+      content: "";
+      position: absolute;
+      inset: -35% auto -35% -55%;
+      width: 42%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.52), transparent);
+      transform: skewX(-18deg);
+      transition: transform .55s ease;
+    }
+    .btn:hover {
+      transform: translateY(-3px);
+      filter: saturate(1.08);
+      box-shadow: 0 24px 78px rgba(216,184,111,.42), inset 0 1px 0 rgba(255,255,255,.42);
+    }
+    .btn:hover::before { transform: translateX(360%) skewX(-18deg); }
+    .btn.secondary {
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      border: 1px solid var(--line);
+      box-shadow: none;
+      animation: none;
+    }
+    .btn.secondary:hover {
+      border-color: rgba(216,184,111,.34);
+      background: rgba(216,184,111,.12);
+      box-shadow: 0 18px 48px rgba(216,184,111,.13);
+    }
+    .menu {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .hero {
+      min-height: 100vh;
+      padding: 140px 0 72px;
+      display: grid;
+      align-items: center;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr .96fr;
+      gap: 42px;
+      align-items: center;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border: 1px solid rgba(216,184,111,.34);
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(216,184,111,.16), rgba(255,255,255,.045));
+      color: #ffe6ad;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 22px;
+      box-shadow: 0 10px 34px rgba(216,184,111,.08), inset 0 1px 0 rgba(255,255,255,.1);
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold-bright);
+      box-shadow: 0 0 0 6px rgba(216,184,111,.13);
+    }
+    h1 {
+      font-family: Cinzel, Georgia, serif;
+      font-size: clamp(44px, 7.2vw, 88px);
+      line-height: .94;
+      max-width: 900px;
+      overflow-wrap: break-word;
+    }
+    .gradient {
+      display: block;
+      background: linear-gradient(135deg, #fff, #f7d98c 52%, #9aefff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .lead {
+      color: var(--muted);
+      font-size: clamp(17px, 2vw, 20px);
+      line-height: 1.72;
+      max-width: 650px;
+      margin: 24px 0 32px;
+      overflow-wrap: anywhere;
+    }
+    .actions { display: flex; flex-wrap: wrap; gap: 14px; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 42px;
+      max-width: 650px;
+    }
+    .stat {
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(20,24,31,.95), rgba(13,16,23,.92));
+      border-radius: 22px;
+      padding: 18px;
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease, background .25s ease;
+    }
+    .stat:hover {
+      transform: translateY(-5px);
+      border-color: rgba(216,184,111,.34);
+      background: linear-gradient(145deg, rgba(40,34,23,.96), rgba(15,18,24,.94));
+      box-shadow: 0 18px 46px rgba(0,0,0,.24), 0 0 28px rgba(216,184,111,.08);
+    }
+    .stat strong { display: block; font-size: 27px; }
+    .stat span { color: var(--muted); font-size: 13px; font-weight: 800; }
+
+    .visual {
+      position: relative;
+      min-height: 610px;
+      border-radius: 34px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #080b10;
+      box-shadow: var(--shadow), 0 0 0 1px rgba(216,184,111,.08), 0 0 90px rgba(216,184,111,.12);
+      isolation: isolate;
+      transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+    }
+    .visual > img:not(.hero-badge) {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(.86) contrast(1.1) saturate(1.14);
+      animation: heroPulse 8s ease-in-out infinite;
+      transition: transform .55s ease, filter .55s ease;
+      transform-origin: center;
+    }
+    .visual::before {
+      content: "";
+      position: absolute;
+      z-index: 1;
+      inset: -28% auto -28% -42%;
+      width: 44%;
+      background: linear-gradient(100deg, transparent 0%, rgba(255,255,255,.08) 28%, rgba(255,226,160,.55) 48%, rgba(140,231,255,.16) 55%, transparent 72%);
+      mix-blend-mode: screen;
+      animation: goldSweep 5.8s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, rgba(255,226,160,.2) 0%, transparent 28%, transparent 66%, rgba(255,226,160,.12) 100%),
+        linear-gradient(180deg, rgba(5,7,10,.02) 0%, rgba(5,7,10,.22) 42%, rgba(5,7,10,.78) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .visual:hover {
+      transform: translateY(-6px);
+      border-color: rgba(216,184,111,.38);
+      box-shadow: 0 36px 105px rgba(0,0,0,.5), 0 0 110px rgba(216,184,111,.2);
+    }
+    .visual:hover > img:not(.hero-badge) {
+      transform: scale(1.045);
+      filter: brightness(1) contrast(1.16) saturate(1.22);
+    }
+    .hero-badge {
+      position: absolute;
+      z-index: 2;
+      left: 22px;
+      top: 22px;
+      width: 158px;
+      height: auto;
+      object-fit: cover;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.16);
+      box-shadow: 0 18px 36px rgba(0,0,0,.42);
+      transition: transform .28s ease, box-shadow .28s ease;
+    }
+    .visual:hover .hero-badge {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 22px 50px rgba(0,0,0,.48), 0 0 34px rgba(216,184,111,.24);
+    }
+    .hero-card {
+      position: absolute;
+      z-index: 2;
+      left: 26px;
+      right: 26px;
+      bottom: 26px;
+      border-radius: 24px;
+      padding: 22px;
+      background: rgba(7,10,16,.94);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(18px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+      transition: border-color .25s ease, background .25s ease, transform .25s ease;
+    }
+    .visual:hover .hero-card {
+      transform: translateY(-3px);
+      border-color: rgba(216,184,111,.34);
+      background: rgba(7,10,16,.98);
+    }
+    .hero-card h3 { font-size: 24px; margin-bottom: 8px; }
+    .hero-card p { color: var(--muted); line-height: 1.55; }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 22px;
+      align-items: end;
+      margin-bottom: 34px;
+    }
+    .section-head h2 {
+      font-family: Cinzel, Georgia, serif;
+      font-size: clamp(34px, 5vw, 62px);
+      line-height: .98;
+      max-width: 850px;
+    }
+    .section-head p { color: var(--muted); line-height: 1.7; max-width: 455px; }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .service {
+      position: relative;
+      min-height: 292px;
+      padding: 24px;
+      border-radius: 26px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, var(--panel), rgba(9,12,18,.94));
+      overflow: hidden;
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease, background .25s ease;
+    }
+    .service::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,226,160,.18), transparent 34%, rgba(140,231,255,.06));
+      opacity: 0;
+      transition: opacity .25s ease;
+      pointer-events: none;
+    }
+    .service:hover {
+      transform: translateY(-8px);
+      border-color: rgba(216,184,111,.34);
+      background: linear-gradient(180deg, var(--panel-strong), rgba(12,15,21,.96));
+      box-shadow: 0 24px 70px rgba(0,0,0,.32), 0 0 38px rgba(216,184,111,.12);
+    }
+    .service:hover::before { opacity: 1; }
+    .icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: rgba(216,184,111,.12);
+      border: 1px solid rgba(216,184,111,.24);
+      color: var(--gold-bright);
+      font-size: 24px;
+      margin-bottom: 22px;
+      transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+    }
+    .service:hover .icon {
+      transform: translateY(-2px) rotate(-4deg);
+      background: rgba(216,184,111,.2);
+      box-shadow: 0 0 32px rgba(216,184,111,.16);
+    }
+    .service h3 {
+      font-family: Cinzel, Georgia, serif;
+      font-size: 21px;
+      line-height: 1.14;
+      margin-bottom: 12px;
+      hyphens: auto;
+      overflow-wrap: anywhere;
+    }
+    .service p { color: var(--muted); line-height: 1.62; font-size: 15px; }
+    .service ul {
+      margin-top: 18px;
+      list-style: none;
+      display: grid;
+      gap: 8px;
+      color: #e9eef8;
+      font-size: 13.5px;
+      font-weight: 800;
+    }
+    .service li::before { content: "+"; color: var(--gold-bright); margin-right: 8px; }
+
+    .split { display: grid; grid-template-columns: .9fr 1.1fr; gap: 24px; }
+    .photo {
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      min-height: 540px;
+      background: #070a0f;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+    }
+    .photo:hover {
+      transform: translateY(-6px);
+      border-color: rgba(216,184,111,.34);
+      box-shadow: 0 34px 96px rgba(0,0,0,.42), 0 0 70px rgba(216,184,111,.12);
+    }
+    .photo img {
+      width: 100%;
+      height: 100%;
+      min-height: 540px;
+      object-fit: cover;
+      object-position: center;
+      transition: transform .45s ease, filter .45s ease;
+    }
+    .photo:hover img { transform: scale(1.035); filter: brightness(1.05) contrast(1.06); }
+    .steps {
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: rgba(13,17,24,.94);
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 16px;
+      padding: 22px;
+      border-radius: 22px;
+      background: rgba(17,21,29,.95);
+      border: 1px solid rgba(255,255,255,.08);
+      transition: transform .24s ease, border-color .24s ease, background .24s ease;
+    }
+    .step:hover {
+      transform: translateX(6px);
+      border-color: rgba(216,184,111,.28);
+      background: rgba(39,32,20,.96);
+    }
+    .num {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+      color: #151007;
+      font-weight: 950;
+    }
+    .step h3 { font-size: 21px; margin-bottom: 7px; }
+    .step p { color: var(--muted); line-height: 1.6; }
+
+    .tabs {
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      background: rgba(12,16,23,.95);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: border-color .25s ease, box-shadow .25s ease;
+    }
+    .tabs:hover {
+      border-color: rgba(216,184,111,.28);
+      box-shadow: 0 34px 96px rgba(0,0,0,.42), 0 0 60px rgba(216,184,111,.08);
+    }
+    .tab-buttons {
+      display: flex;
+      gap: 8px;
+      overflow: auto;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(5,8,13,.88);
+    }
+    .tab-buttons button {
+      white-space: nowrap;
+      border: 1px solid var(--line);
+      background: rgba(21,26,35,.92);
+      color: #d5dbe6;
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-weight: 950;
+      cursor: pointer;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .tab-buttons button:hover {
+      transform: translateY(-2px);
+      border-color: rgba(216,184,111,.34);
+      background: rgba(42,35,22,.96);
+      color: #fff;
+    }
+    .tab-buttons button.active { background: linear-gradient(135deg, var(--gold), var(--gold-bright)); color: #130e05; }
+    .tab-panel { display: none; padding: 24px; }
+    .tab-panel.active { display: block; }
+    .price-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .price-card {
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 24px;
+      background: linear-gradient(155deg, rgba(12,15,22,.97), rgba(19,24,32,.94));
+      padding: 20px;
+      transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease, background .24s ease;
+    }
+    .price-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(216,184,111,.34);
+      background: linear-gradient(155deg, rgba(41,34,22,.97), rgba(18,22,30,.96));
+      box-shadow: 0 22px 60px rgba(0,0,0,.28), 0 0 30px rgba(216,184,111,.08);
+    }
+    .price-card h3 { font-family: Cinzel, Georgia, serif; color: var(--gold-bright); margin-bottom: 12px; font-size: 20px; line-height: 1.15; }
+    .row { display: flex; justify-content: space-between; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.08); color: #e8edf7; line-height: 1.35; }
+    .row:last-child { border-bottom: 0; }
+    .row span:last-child { font-weight: 950; color: #fff; text-align: right; white-space: nowrap; }
+    .note { color: var(--muted); line-height: 1.65; margin-top: 18px; font-size: 14px; }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .shot {
+      position: relative;
+      min-height: 330px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #070b12;
+      cursor: pointer;
+      box-shadow: 0 18px 55px rgba(0,0,0,.22);
+      transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
+    }
+    .shot.wide { grid-column: span 2; }
+    .shot img {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      inset: 0;
+      object-fit: cover;
+      object-position: center;
+      transition: transform .45s ease, filter .45s ease;
+    }
+    .shot:hover {
+      transform: translateY(-7px);
+      border-color: rgba(216,184,111,.38);
+      box-shadow: 0 28px 78px rgba(0,0,0,.34), 0 0 48px rgba(216,184,111,.14);
+    }
+    .shot:hover img { transform: scale(1.055); filter: brightness(1.08) contrast(1.08) saturate(1.1); }
+    .shot::before {
+      content: "";
+      position: absolute;
+      z-index: 1;
+      inset: -35% auto -35% -55%;
+      width: 44%;
+      background: linear-gradient(100deg, transparent, rgba(255,226,160,.42), transparent);
+      transform: skewX(-16deg);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .shot:hover::before {
+      animation: goldSweep 1.15s ease forwards;
+    }
+    .shot::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 38%, rgba(0,0,0,.76));
+      transition: background .25s ease;
+    }
+    .shot:hover::after { background: linear-gradient(180deg, rgba(255,226,160,.08), rgba(0,0,0,.72)); }
+    .tag {
+      position: absolute;
+      z-index: 2;
+      left: 18px;
+      bottom: 18px;
+      background: rgba(7,10,16,.92);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 999px;
+      padding: 10px 13px;
+      font-weight: 950;
+      font-size: 14px;
+      transition: transform .24s ease, border-color .24s ease, background .24s ease;
+    }
+    .shot:hover .tag {
+      transform: translateY(-3px);
+      border-color: rgba(216,184,111,.34);
+      background: rgba(18,14,8,.96);
+    }
+
+    .cta {
+      display: grid;
+      grid-template-columns: 1fr .78fr;
+      gap: 30px;
+      padding: 36px;
+      border-radius: 34px;
+      border: 1px solid rgba(216,184,111,.26);
+      background: linear-gradient(135deg, rgba(31,29,24,.96), rgba(12,16,23,.95));
+      box-shadow: var(--shadow);
+      transition: border-color .28s ease, box-shadow .28s ease, background .28s ease;
+    }
+    .cta:hover {
+      border-color: rgba(216,184,111,.44);
+      background: linear-gradient(135deg, rgba(43,35,22,.97), rgba(13,17,24,.96));
+      box-shadow: 0 34px 100px rgba(0,0,0,.42), 0 0 70px rgba(216,184,111,.13);
+    }
+    .cta h2 { font-family: Cinzel, Georgia, serif; font-size: clamp(36px, 6vw, 70px); line-height: .95; margin-bottom: 18px; }
+    .cta p { color: var(--muted); line-height: 1.75; max-width: 620px; }
+    .form { display: grid; gap: 14px; margin-top: 26px; }
+    .form input, .form textarea {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(13,17,24,.96);
+      border-radius: 18px;
+      padding: 17px 18px;
+      color: #fff;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      resize: vertical;
+    }
+    .form input:focus, .form textarea:focus { border-color: rgba(216,184,111,.55); box-shadow: 0 0 0 4px rgba(216,184,111,.11), 0 12px 32px rgba(216,184,111,.08); }
+    .contact-card {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: rgba(9,13,20,.96);
+      padding: 24px;
+      backdrop-filter: blur(16px);
+      height: max-content;
+      transition: transform .26s ease, border-color .26s ease, box-shadow .26s ease;
+    }
+    .contact-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(216,184,111,.32);
+      box-shadow: 0 22px 70px rgba(0,0,0,.28), 0 0 42px rgba(216,184,111,.1);
+    }
+    .contact-item { padding: 17px 0; border-bottom: 1px solid rgba(255,255,255,.09); }
+    .contact-item:last-child { border-bottom: 0; }
+    .contact-item span { display: block; color: var(--muted); font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 7px; }
+    .contact-item strong { font-size: 18px; line-height: 1.35; }
+
+    .legal {
+      display: grid;
+      gap: 14px;
+    }
+    .legal details {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(12,16,23,.95);
+      overflow: hidden;
+      transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease, background .24s ease;
+    }
+    .legal details:hover,
+    .legal details[open] {
+      transform: translateY(-3px);
+      border-color: rgba(216,184,111,.32);
+      background: rgba(36,30,20,.96);
+      box-shadow: 0 18px 54px rgba(0,0,0,.22), 0 0 32px rgba(216,184,111,.08);
+    }
+    .legal summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 22px 24px;
+      font-family: Cinzel, Georgia, serif;
+      color: var(--gold-bright);
+      font-size: 22px;
+      font-weight: 800;
+      transition: color .2s ease;
+    }
+    .legal summary::-webkit-details-marker { display: none; }
+    .legal summary::after {
+      content: "+";
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      color: #fff;
+      font-family: Inter, sans-serif;
+      font-size: 22px;
+      transition: transform .22s ease, border-color .22s ease, background .22s ease;
+    }
+    .legal summary:hover::after {
+      transform: rotate(90deg);
+      border-color: rgba(216,184,111,.4);
+      background: rgba(216,184,111,.12);
+    }
+    .legal details[open] summary::after { content: "x"; transform: rotate(0deg); }
+    .legal-content {
+      padding: 0 24px 24px;
+      color: var(--muted);
+      line-height: 1.72;
+    }
+
+    .cookie {
+      position: fixed;
+      z-index: 70;
+      left: 50%;
+      bottom: 18px;
+      transform: translate(-50%, 140%);
+      width: min(820px, calc(100% - 28px));
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(7,10,16,.97);
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      transition: .32s ease;
+    }
+    .cookie.show { transform: translate(-50%, 0); }
+    .cookie p { color: var(--muted); line-height: 1.55; margin-right: auto; }
+    .whatsapp {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 60;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #25d366;
+      color: #fff;
+      font-size: 27px;
+      font-weight: 900;
+      box-shadow: 0 18px 45px rgba(37,211,102,.35);
+    }
+    footer { padding: 38px 0 56px; color: var(--muted); border-top: 1px solid rgba(255,255,255,.08); }
+    .footer-grid { display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap; }
+    .reveal { opacity: 0; transform: translateY(24px); transition: .75s ease; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+    .modal {
+      position: fixed;
+      z-index: 90;
+      inset: 0;
+      background: rgba(0,0,0,.88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .modal.show { display: flex; }
+    .modal img {
+      max-height: 90vh;
+      max-width: 94vw;
+      object-fit: contain;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+    .modal button {
+      position: absolute;
+      top: 18px;
+      right: 24px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .links {
+        position: absolute;
+        top: 72px;
+        right: 0;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 14px;
+        border-radius: 24px;
+        background: rgba(5,7,10,.96);
+        border: 1px solid var(--line);
+        display: none;
+      }
+      .links.open { display: flex; }
+      .menu { display: block; }
+      .nav > .btn { display: none; }
+      .hero-grid, .split, .cta { grid-template-columns: 1fr; }
+      .visual { min-height: 500px; }
+      .services { grid-template-columns: repeat(2, 1fr); }
+      .gallery { grid-template-columns: 1fr; }
+      .shot.wide { grid-column: span 1; }
+      .price-grid { grid-template-columns: 1fr; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 16px; }
+    }
+    @media (max-width: 620px) {
+      .hero { padding-top: 128px; }
+      h1 { font-size: clamp(39px, 13vw, 50px); }
+      .brand span { font-size: 15px; }
+      .brand-mark { width: 46px; height: 46px; }
+      .stats { grid-template-columns: 1fr; }
+      .actions { align-items: stretch; }
+      .btn { width: 100%; }
+      .visual { min-height: 420px; border-radius: 26px; }
+      .hero-badge { width: 128px; }
+      .hero-card { left: 18px; right: 18px; bottom: 18px; }
+      .services { grid-template-columns: 1fr; }
+      section { padding: 70px 0; }
+      .cta { padding: 24px; border-radius: 28px; }
+      .cookie { display: block; }
+      .cookie .btn { margin-top: 10px; }
+      .step { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#home" aria-label="GlanzWerkstatt Startseite">
+      <span class="brand-mark"><img src="assets/images/brand/logo-primary.jpg" alt="GlanzWerkstatt Logo"></span>
+      <span>GlanzWerkstatt</span>
+    </a>
+    <nav class="links" id="navLinks">
+      <a href="#leistungen">Leistungen</a>
+      <a href="#ablauf">Ablauf</a>
+      <a href="#preise">Preise</a>
+      <a href="#galerie">Galerie</a>
+      <a href="#kontakt">Kontakt</a>
+      <a href="#rechtliches">Rechtliches</a>
+    </nav>
+    <a class="btn" href="#kontakt">Termin anfragen</a>
+    <button class="menu" id="menuBtn" aria-label="Menü öffnen">☰</button>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow"><span class="dot"></span> Premium Fahrzeugaufbereitung · Alzey</div>
+          <h1>Sauber ist Standard. <span class="gradient">Glanz ist Handwerk.</span></h1>
+          <p class="lead">GlanzWerkstatt verbindet Fahrzeugpflege, Lackaufbereitung, Reifenservice und KFZ-Service mit einem hochwertigen Premium-Auftritt. Für Fahrzeuge, die nicht nur sauber, sondern sichtbar veredelt wirken sollen.</p>
+          <div class="actions">
+            <a class="btn" href="#kontakt">Jetzt Termin anfragen</a>
+            <a class="btn secondary" href="#preise">Preisliste ansehen</a>
+          </div>
+          <div class="stats">
+            <div class="stat"><strong>100%</strong><span>saubere Handarbeit</span></div>
+            <div class="stat"><strong>Alzey</strong><span>Karl-Heinz-Kipp-Straße 28</span></div>
+            <div class="stat"><strong>Premium</strong><span>Aufbereitung & Service</span></div>
+          </div>
+        </div>
+        <div class="visual" aria-label="GlanzWerkstatt Fahrzeugaufnahme">
+          <img src="assets/images/gallery/bmw-m4-coupe.jpg" alt="Aufbereiteter BMW vor der Werkstatt">
+          <img class="hero-badge" src="assets/images/brand/logo-wide.jpg" alt="GlanzWerkstatt Logo">
+          <div class="hero-card">
+            <h3>Cleaner Look. Starke Wirkung.</h3>
+            <p>Echte Werkstattbilder, sauber eingebunden und ohne abgeschnittene Logo-Pfade.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="leistungen">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>Alles, was ein gepflegtes Fahrzeug ausmacht.</h2>
+          <p>Klare Pakete, saubere Beratung und ein Ergebnis, das sofort sichtbar ist.</p>
+        </div>
+        <div class="services">
+          <article class="service reveal"><div class="icon">✦</div><h3>Fahrzeugaufbereitung</h3><p>Innenraum, Außenwäsche und Detailarbeit für einen gepflegten Gesamteindruck.</p><ul><li>Handwäsche</li><li>Innenraumreinigung</li><li>Finish bis ins Detail</li></ul></article>
+          <article class="service reveal"><div class="icon">◆</div><h3>Lackpflege</h3><p>Mehr Tiefe, weniger Swirls und sichtbar hochwertiger Glanz.</p><ul><li>Politur nach Zustand</li><li>Wachs, Nano oder Keramik</li><li>Lackschutz & Werterhalt</li></ul></article>
+          <article class="service reveal"><div class="icon">◈</div><h3>Reifenservice</h3><p>Montage, Wuchten, RDKS und Einlagerung nach Absprache.</p><ul><li>Komplettradmontage</li><li>Reifenmontage</li><li>RDKS-Service</li></ul></article>
+          <article class="service reveal"><div class="icon">⚙</div><h3>KFZ-Service</h3><p>Praktische Serviceleistungen für Alltag, Pflege und Sicherheit.</p><ul><li>Ölservice</li><li>Fehlerspeicher</li><li>Check-up</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="ablauf">
+      <div class="container split">
+        <div class="photo reveal">
+          <img src="assets/images/gallery/bmw-m2-front.jpg" alt="Aufbereitetes Fahrzeug vor der GlanzWerkstatt" loading="lazy">
+        </div>
+        <div class="steps reveal">
+          <div class="step"><div class="num">01</div><div><h3>Anfrage senden</h3><p>Fahrzeugmodell, gewünschte Leistung und groben Zustand mitteilen.</p></div></div>
+          <div class="step"><div class="num">02</div><div><h3>Beratung erhalten</h3><p>Du bekommst eine ehrliche Einschätzung und eine passende Empfehlung.</p></div></div>
+          <div class="step"><div class="num">03</div><div><h3>Termin vereinbaren</h3><p>Leistung, Umfang und Preis werden transparent abgestimmt.</p></div></div>
+          <div class="step"><div class="num">04</div><div><h3>Glänzend abholen</h3><p>Dein Fahrzeug kommt sauber, gepflegt und sichtbar aufgewertet zurück.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="preise">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>Preise klar sortiert. Keine Zettel-Galerie.</h2>
+          <p>Die Leistungen sind sauber als Tab-System aufgebaut und bleiben von der Bildergalerie getrennt.</p>
+        </div>
+        <div class="tabs reveal">
+          <div class="tab-buttons">
+            <button class="active" data-tab="tab-aufbereitung">Aufbereitung</button>
+            <button data-tab="tab-lack">Lackpflege</button>
+            <button data-tab="tab-reifen">Reifen</button>
+            <button data-tab="tab-kfz">KFZ-Service</button>
+            <button data-tab="tab-extra">Extras</button>
+          </div>
+          <div class="tab-panel active" id="tab-aufbereitung">
+            <div class="price-grid">
+              <div class="price-card"><h3>Kleinwagen</h3><div class="row"><span>Handwäsche</span><span>ab 49 €</span></div><div class="row"><span>Innenraum Basis</span><span>ab 59 €</span></div><div class="row"><span>Innenraum Gold</span><span>ab 99 €</span></div><div class="row"><span>Innenraum Diamant</span><span>ab 169 €</span></div></div>
+              <div class="price-card"><h3>Mittelklasse / Kombi</h3><div class="row"><span>Handwäsche</span><span>ab 59 €</span></div><div class="row"><span>Innenraum Basis</span><span>ab 69 €</span></div><div class="row"><span>Innenraum Gold</span><span>ab 119 €</span></div><div class="row"><span>Innenraum Diamant</span><span>ab 189 €</span></div></div>
+              <div class="price-card"><h3>Oberklasse / SUV</h3><div class="row"><span>Handwäsche</span><span>ab 69 €</span></div><div class="row"><span>Innenraum Basis</span><span>ab 79 €</span></div><div class="row"><span>Innenraum Gold</span><span>ab 139 €</span></div><div class="row"><span>Innenraum Diamant</span><span>ab 209 €</span></div></div>
+            </div>
+          </div>
+          <div class="tab-panel" id="tab-lack">
+            <div class="price-grid">
+              <div class="price-card"><h3>Basis</h3><div class="row"><span>Kleinwagen</span><span>ab 79 €</span></div><div class="row"><span>Mittelklasse / Kombi</span><span>ab 89 €</span></div><div class="row"><span>Oberklasse / SUV</span><span>ab 109 €</span></div></div>
+              <div class="price-card"><h3>Gold</h3><div class="row"><span>Kleinwagen</span><span>ab 119 €</span></div><div class="row"><span>Mittelklasse / Kombi</span><span>ab 129 €</span></div><div class="row"><span>Oberklasse / SUV</span><span>ab 149 €</span></div></div>
+              <div class="price-card"><h3>Premium Schutz</h3><div class="row"><span>Wachs</span><span>ab 179 €</span></div><div class="row"><span>Nano</span><span>ab 299 €</span></div><div class="row"><span>Keramik</span><span>ab 600 €</span></div></div>
+            </div>
+            <p class="note">Ab der Lack-Aufbereitung wird der Lack je nach Zustand mit geeigneten Schleif- und Poliermethoden aufbereitet.</p>
+          </div>
+          <div class="tab-panel" id="tab-reifen">
+            <div class="price-grid">
+              <div class="price-card"><h3>Montage</h3><div class="row"><span>Komplettradmontage Satz</span><span>ab 40 €</span></div><div class="row"><span>14-19 Zoll pro Rad</span><span>ab 15 €</span></div><div class="row"><span>20-24 Zoll pro Rad</span><span>ab 20 €</span></div></div>
+              <div class="price-card"><h3>Service</h3><div class="row"><span>Wuchten bis 24 Zoll</span><span>ab 7,50 €</span></div><div class="row"><span>RDKS anlernen pro Rad</span><span>ab 10 €</span></div><div class="row"><span>RDKS montieren + anlernen</span><span>ab 15 €</span></div></div>
+              <div class="price-card"><h3>Einlagerung</h3><div class="row"><span>Kompletträder pro Monat</span><span>ab 10 €</span></div><div class="row"><span>Felgen Instandsetzung</span><span>auf Anfrage</span></div></div>
+            </div>
+          </div>
+          <div class="tab-panel" id="tab-kfz">
+            <div class="price-grid">
+              <div class="price-card"><h3>KFZ-Service</h3><div class="row"><span>Ölservice ohne Öl & Filter</span><span>ab 50 €</span></div><div class="row"><span>Fehlerspeicherabfrage</span><span>ab 20 €</span></div><div class="row"><span>Fahrzeug Check-up</span><span>ab 30 €</span></div></div>
+              <div class="price-card"><h3>Inspektion</h3><div class="row"><span>Nach Herstellervorgabe</span><span>auf Anfrage</span></div><div class="row"><span>Zündkerzen, Luftfilter etc.</span><span>auf Anfrage</span></div></div>
+            </div>
+          </div>
+          <div class="tab-panel" id="tab-extra">
+            <div class="price-grid"><div class="price-card"><h3>Extras</h3><div class="row"><span>Cabriodach Pflege</span><span>ab 70 €</span></div><div class="row"><span>Geruchsbeseitigung</span><span>auf Anfrage</span></div><div class="row"><span>Sonderwünsche</span><span>auf Anfrage</span></div></div></div>
+            <p class="note">Alle Preise sind Richtwerte und können je nach Fahrzeuggröße, Zustand und gewünschtem Umfang abweichen.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="galerie">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>Aus der Werkstatt. Nicht aus dem Stockarchiv.</h2>
+          <p>Echte Eindrücke, sauber zugeschnitten und mit unkenntlichen Kennzeichen.</p>
+        </div>
+        <div class="gallery reveal">
+          <div class="shot wide" data-img="assets/images/gallery/bmw-m4-coupe.jpg"><img loading="lazy" src="assets/images/gallery/bmw-m4-coupe.jpg" alt="BMW Coupé aufbereitet"><span class="tag">Tiefenglanz</span></div>
+          <div class="shot" data-img="assets/images/gallery/alfa-romeo-giulia-censored.jpg"><img loading="lazy" src="assets/images/gallery/alfa-romeo-giulia-censored.jpg" alt="Alfa Romeo Aufbereitung"><span class="tag">Showroom Finish</span></div>
+          <div class="shot" data-img="assets/images/gallery/corvette-front-censored.jpg"><img loading="lazy" src="assets/images/gallery/corvette-front-censored.jpg" alt="Corvette Front"><span class="tag">Sportwagen Pflege</span></div>
+          <div class="shot" data-img="assets/images/gallery/corvette-rear-censored.jpg"><img loading="lazy" src="assets/images/gallery/corvette-rear-censored.jpg" alt="Corvette Heck"><span class="tag">Lack & Details</span></div>
+          <div class="shot" data-img="assets/images/gallery/bmw-m2-front.jpg"><img loading="lazy" src="assets/images/gallery/bmw-m2-front.jpg" alt="BMW M2 vor der Werkstatt"><span class="tag">Werkstattmoment</span></div>
+          <div class="shot wide" data-img="assets/images/gallery/porsche-cayenne-censored.jpg"><img loading="lazy" src="assets/images/gallery/porsche-cayenne-censored.jpg" alt="Porsche Cayenne"><span class="tag">Premium Service</span></div>
+          <div class="shot" data-img="assets/images/gallery/bmw-lackdetail.jpg"><img loading="lazy" src="assets/images/gallery/bmw-lackdetail.jpg" alt="Lack Detail"><span class="tag">Lackdetail</span></div>
+          <div class="shot" data-img="assets/images/gallery/onlycars-brand-shot.jpg"><img loading="lazy" src="assets/images/gallery/onlycars-brand-shot.jpg" alt="GlanzWerkstatt Szene"><span class="tag">Brand Moment</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="kontakt">
+      <div class="container">
+        <div class="cta reveal">
+          <div>
+            <h2>Termin anfragen.</h2>
+            <p>Schick kurz dein Anliegen. Das Formular ist als Demo vorbereitet und kann später mit Mailversand oder WhatsApp-Automation verbunden werden.</p>
+            <form class="form" id="form">
+              <input type="text" placeholder="Dein Name" required>
+              <input type="email" placeholder="Deine E-Mail" required>
+              <input type="text" placeholder="Betreff" required>
+              <textarea rows="5" placeholder="Fahrzeug, gewünschte Leistung, Zustand, Wunschtermin..." required></textarea>
+              <button class="btn" type="submit">Anfrage absenden</button>
+              <p class="note">Demo-Formular - aktuell ohne Backend.</p>
+            </form>
+          </div>
+          <div class="contact-card">
+            <div class="contact-item"><span>Adresse</span><strong>Karl-Heinz-Kipp-Straße 28<br>55232 Alzey</strong></div>
+            <div class="contact-item"><span>Telefon</span><strong><a href="tel:+4915128823940">0151 / 288 239 40</a></strong></div>
+            <div class="contact-item"><span>E-Mail</span><strong><a href="mailto:glanzwerkstatt.alzey@gmail.com">glanzwerkstatt.alzey@gmail.com</a></strong></div>
+            <div class="contact-item"><span>Öffnungszeiten</span><strong>Nach Absprache</strong></div>
+            <div class="contact-item"><span>Route</span><strong><a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/?api=1&query=Karl-Heinz-Kipp-Stra%C3%9Fe%2028%2055232%20Alzey">Google Maps öffnen</a></strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="rechtliches">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>Rechtliches.</h2>
+          <p>Vor Veröffentlichung bitte final mit Steuerberater oder Rechtsanwalt prüfen.</p>
+        </div>
+        <div class="legal reveal">
+          <details>
+            <summary>Impressum</summary>
+            <div class="legal-content">
+              <p>GlanzWerkstatt<br>Inhaber: Artur Derr<br>Karl-Heinz-Kipp-Straße 28, 55232 Alzey<br>Telefon: 0151 / 288 239 40<br>E-Mail: glanzwerkstatt.alzey@gmail.com<br>USt-IdNr.: DE410265621<br>Steuer-Nr.: 08/029/53435</p>
+            </div>
+          </details>
+          <details>
+            <summary>Datenschutz</summary>
+            <div class="legal-content">
+              <p>Diese Website verarbeitet Kontaktangaben nur zur Bearbeitung von Anfragen. Bei Nutzung externer Dienste wie Google Maps, Hosting, Analytics oder Formular-Mailversand müssen diese hier ergänzt werden.</p>
+            </div>
+          </details>
+          <details>
+            <summary>AGB</summary>
+            <div class="legal-content">
+              <p>Leistungen erfolgen nach individueller Absprache. Preise können je nach Fahrzeugzustand, Größe und Aufwand abweichen. Termine gelten erst nach Bestätigung durch GlanzWerkstatt als verbindlich.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <a class="brand" href="#home">
+        <span class="brand-mark"><img src="assets/images/brand/logo-primary.jpg" alt="GlanzWerkstatt Logo"></span>
+        <span>GlanzWerkstatt</span>
+      </a>
+      <p>© <span id="year"></span> GlanzWerkstatt Alzey. Alle Rechte vorbehalten.</p>
+    </div>
+  </footer>
+
+  <div class="cookie" id="cookie">
+    <p><strong>Cookies & Datenschutz:</strong> Diese Demo nutzt nur technisch notwendige Funktionen. Externe Dienste können später ergänzt werden.</p>
+    <button class="btn secondary" id="cookieReject">Nur notwendig</button>
+    <button class="btn" id="cookieAccept">Akzeptieren</button>
+  </div>
+  <a class="whatsapp" href="https://wa.me/4915128823940" target="_blank" rel="noreferrer" aria-label="WhatsApp öffnen">☎</a>
+  <div class="modal" id="modal"><button id="modalClose" aria-label="Galerie schließen">×</button><img id="modalImg" alt="Galerie Bild"></div>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    menuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      menuBtn.textContent = navLinks.classList.contains('open') ? '×' : '☰';
+    });
+    document.querySelectorAll('.links a').forEach((link) => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuBtn.textContent = '☰';
+      });
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    document.querySelectorAll('.tab-buttons button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-buttons button').forEach((button) => button.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach((panel) => panel.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    const reveal = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          reveal.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .14 });
+    document.querySelectorAll('.reveal').forEach((el) => reveal.observe(el));
+
+    const form = document.getElementById('form');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const button = form.querySelector('button');
+      const original = button.textContent;
+      button.textContent = 'Gesendet ✓';
+      setTimeout(() => {
+        button.textContent = original;
+        form.reset();
+      }, 2200);
+    });
+
+    const cookie = document.getElementById('cookie');
+    if (!localStorage.getItem('gwCookie')) {
+      setTimeout(() => cookie.classList.add('show'), 700);
+    }
+    document.getElementById('cookieAccept').onclick = () => {
+      localStorage.setItem('gwCookie', 'accepted');
+      cookie.classList.remove('show');
+    };
+    document.getElementById('cookieReject').onclick = () => {
+      localStorage.setItem('gwCookie', 'necessary');
+      cookie.classList.remove('show');
+    };
+
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modalImg');
+    document.querySelectorAll('.shot').forEach((shot) => {
+      shot.addEventListener('click', () => {
+        modalImg.src = shot.dataset.img;
+        modal.classList.add('show');
+      });
+    });
+    document.getElementById('modalClose').onclick = () => modal.classList.remove('show');
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) modal.classList.remove('show');
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') modal.classList.remove('show');
+    });
+  </script>
+</body>
+</html>
