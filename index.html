@@ -27,7 +27,7 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; background: #03060c; }
     body {
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
@@ -37,6 +37,7 @@
         linear-gradient(180deg, #070b14 0%, #050912 44%, #03060c 100%);
       color: var(--text);
       overflow-x: hidden;
+      min-height: 100vh;
     }
     body::before {
       content: "";
@@ -89,7 +90,7 @@
 
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
-    section { padding: 96px 0; }
+    section { padding: 96px 0; scroll-margin-top: 118px; }
     .container { width: min(var(--max), calc(100vw - 34px)); margin: auto; }
     .serif { font-family: Cinzel, Georgia, serif; }
     .gold { color: var(--gold-bright); }
@@ -472,6 +473,97 @@
       font-weight: 800;
     }
     .service li::before { content: "+"; color: var(--gold-bright); margin-right: 8px; }
+
+    .packages {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .package-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 430px;
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(155deg, rgba(12,15,22,.97), rgba(19,24,32,.94));
+      overflow: hidden;
+      box-shadow: 0 18px 55px rgba(0,0,0,.22);
+      transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease, background .28s ease;
+    }
+    .package-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,226,160,.18), transparent 42%, rgba(140,231,255,.06));
+      opacity: 0;
+      transition: opacity .28s ease;
+      pointer-events: none;
+    }
+    .package-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(216,184,111,.38);
+      background: linear-gradient(155deg, rgba(41,34,22,.97), rgba(18,22,30,.96));
+      box-shadow: 0 28px 78px rgba(0,0,0,.34), 0 0 48px rgba(216,184,111,.14);
+    }
+    .package-card:hover::before { opacity: 1; }
+    .package-card.featured {
+      border-color: rgba(216,184,111,.46);
+      box-shadow: 0 30px 90px rgba(0,0,0,.34), 0 0 70px rgba(216,184,111,.14);
+    }
+    .package-kicker {
+      width: max-content;
+      position: relative;
+      z-index: 1;
+      padding: 8px 12px;
+      border: 1px solid rgba(216,184,111,.35);
+      border-radius: 999px;
+      background: rgba(216,184,111,.12);
+      color: var(--gold-bright);
+      font-size: 13px;
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .package-card h3 {
+      position: relative;
+      z-index: 1;
+      margin-top: 24px;
+      font-family: Cinzel, Georgia, serif;
+      font-size: clamp(28px, 3vw, 38px);
+      line-height: 1;
+      color: #fffaf0;
+    }
+    .package-card p {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .package-card ul {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 11px;
+      margin: 24px 0 28px;
+      list-style: none;
+      color: #eef2f8;
+      font-weight: 800;
+      line-height: 1.42;
+    }
+    .package-card li::before {
+      content: "+";
+      color: var(--gold-bright);
+      margin-right: 9px;
+    }
+    .package-card .btn {
+      position: relative;
+      z-index: 1;
+      margin-top: auto;
+      width: 100%;
+    }
 
     .split { display: grid; grid-template-columns: .9fr 1.1fr; gap: 24px; }
     .photo {
@@ -877,6 +969,7 @@
       .hero-grid, .split, .cta { grid-template-columns: 1fr; }
       .visual { min-height: 500px; }
       .services { grid-template-columns: repeat(2, 1fr); }
+      .packages { grid-template-columns: 1fr; }
       .gallery { grid-template-columns: 1fr; }
       .shot.wide { grid-column: span 1; }
       .price-grid { grid-template-columns: 1fr; }
@@ -895,6 +988,7 @@
       .hero-badge { width: 128px; }
       .hero-card { left: 18px; right: 18px; bottom: 18px; }
       .services { grid-template-columns: 1fr; }
+      .package-card { min-height: 0; }
       section { padding: 70px 0; }
       .cta { padding: 24px; border-radius: 28px; }
       .cookie { display: block; }
@@ -911,6 +1005,7 @@
     </a>
     <nav class="links" id="navLinks">
       <a href="#leistungen">Leistungen</a>
+      <a href="#pakete">Pakete</a>
       <a href="#ablauf">Ablauf</a>
       <a href="#preise">Preise</a>
       <a href="#galerie">Galerie</a>
@@ -943,7 +1038,7 @@
           <img class="hero-badge" src="assets/images/brand/logo-wide.jpg" alt="GlanzWerkstatt Logo">
           <div class="hero-card">
             <h3>Cleaner Look. Starke Wirkung.</h3>
-            <p>Echte Werkstattbilder, sauber eingebunden und ohne abgeschnittene Logo-Pfade.</p>
+            <p>Premium-Aufbereitung, Lackfinish und Service mit einem Auftritt, der zum Ergebnis passt.</p>
           </div>
         </div>
       </div>
@@ -960,6 +1055,50 @@
           <article class="service reveal"><div class="icon">◆</div><h3>Lackpflege</h3><p>Mehr Tiefe, weniger Swirls und sichtbar hochwertiger Glanz.</p><ul><li>Politur nach Zustand</li><li>Wachs, Nano oder Keramik</li><li>Lackschutz & Werterhalt</li></ul></article>
           <article class="service reveal"><div class="icon">◈</div><h3>Reifenservice</h3><p>Montage, Wuchten, RDKS und Einlagerung nach Absprache.</p><ul><li>Komplettradmontage</li><li>Reifenmontage</li><li>RDKS-Service</li></ul></article>
           <article class="service reveal"><div class="icon">⚙</div><h3>KFZ-Service</h3><p>Praktische Serviceleistungen für Alltag, Pflege und Sicherheit.</p><ul><li>Ölservice</li><li>Fehlerspeicher</li><li>Check-up</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="pakete">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>Pakete für jeden Anspruch.</h2>
+          <p>Drei klare Optionen als Orientierung. Der finale Umfang wird nach Fahrzeugzustand und gewünschtem Ergebnis abgestimmt.</p>
+        </div>
+        <div class="packages reveal">
+          <article class="package-card">
+            <span class="package-kicker">Gold</span>
+            <h3>Sauberer Einstieg</h3>
+            <p>Für Fahrzeuge, die wieder gepflegt, frisch und hochwertig wirken sollen.</p>
+            <ul>
+              <li>Außen- und Innenpflege nach Absprache</li>
+              <li>Sichtbares Finish für Alltag und Verkauf</li>
+              <li>Individuelle Empfehlung vor Ort</li>
+            </ul>
+            <a class="btn secondary" href="#kontakt">Gold anfragen</a>
+          </article>
+          <article class="package-card featured">
+            <span class="package-kicker">Platin</span>
+            <h3>Der Premium-Mix</h3>
+            <p>Für mehr Tiefe, Glanz und ein spürbar wertigeres Gesamtbild.</p>
+            <ul>
+              <li>Erweiterte Reinigung und Lackpflege</li>
+              <li>Stimmiger Schutz je nach Lackzustand</li>
+              <li>Ideal für anspruchsvolle Fahrzeugpflege</li>
+            </ul>
+            <a class="btn" href="#kontakt">Platin anfragen</a>
+          </article>
+          <article class="package-card">
+            <span class="package-kicker">Diamant</span>
+            <h3>Maximaler Auftritt</h3>
+            <p>Für Fahrzeuge, bei denen der Look bis ins Detail glänzen soll.</p>
+            <ul>
+              <li>Intensive Aufbereitung nach Zustand</li>
+              <li>Hochwertiges Finish mit starkem Glanz</li>
+              <li>Details und Umfang nach Beratung</li>
+            </ul>
+            <a class="btn secondary" href="#kontakt">Diamant anfragen</a>
+          </article>
         </div>
       </div>
     </section>
@@ -981,8 +1120,8 @@
     <section id="preise">
       <div class="container">
         <div class="section-head reveal">
-          <h2>Preise klar sortiert. Keine Zettel-Galerie.</h2>
-          <p>Die Leistungen sind sauber als Tab-System aufgebaut und bleiben von der Bildergalerie getrennt.</p>
+          <h2>Transparente Preise. Sauber sortiert.</h2>
+          <p>Alle Angaben dienen als Orientierung. Der finale Preis richtet sich nach Fahrzeuggröße, Zustand und gewünschtem Umfang.</p>
         </div>
         <div class="tabs reveal">
           <div class="tab-buttons">
@@ -1031,8 +1170,8 @@
     <section id="galerie">
       <div class="container">
         <div class="section-head reveal">
-          <h2>Aus der Werkstatt. Nicht aus dem Stockarchiv.</h2>
-          <p>Echte Eindrücke, sauber zugeschnitten und mit unkenntlichen Kennzeichen.</p>
+          <h2>Echte Ergebnisse aus der Werkstatt.</h2>
+          <p>Ausgewählte Einblicke in Aufbereitung, Lackfinish und Service.</p>
         </div>
         <div class="gallery reveal">
           <div class="shot wide" data-img="assets/images/gallery/bmw-m4-coupe.jpg"><img loading="lazy" src="assets/images/gallery/bmw-m4-coupe.jpg" alt="BMW Coupé aufbereitet"><span class="tag">Tiefenglanz</span></div>
@@ -1052,14 +1191,14 @@
         <div class="cta reveal">
           <div>
             <h2>Termin anfragen.</h2>
-            <p>Schick kurz dein Anliegen. Das Formular ist als Demo vorbereitet und kann später mit Mailversand oder WhatsApp-Automation verbunden werden.</p>
+            <p>Schick kurz dein Anliegen. Wir melden uns mit einer passenden Einschätzung und einem Terminvorschlag zurück.</p>
             <form class="form" id="form">
               <input type="text" placeholder="Dein Name" required>
               <input type="email" placeholder="Deine E-Mail" required>
               <input type="text" placeholder="Betreff" required>
               <textarea rows="5" placeholder="Fahrzeug, gewünschte Leistung, Zustand, Wunschtermin..." required></textarea>
-              <button class="btn" type="submit">Anfrage absenden</button>
-              <p class="note">Demo-Formular - aktuell ohne Backend.</p>
+              <button class="btn" type="submit">Anfrage per E-Mail senden</button>
+              <p class="note">Für schnelle Rückfragen erreichst du uns auch direkt per Telefon oder WhatsApp.</p>
             </form>
           </div>
           <div class="contact-card">
@@ -1077,7 +1216,7 @@
       <div class="container">
         <div class="section-head reveal">
           <h2>Rechtliches.</h2>
-          <p>Vor Veröffentlichung bitte final mit Steuerberater oder Rechtsanwalt prüfen.</p>
+          <p>Alle wichtigen Angaben auf einen Blick.</p>
         </div>
         <div class="legal reveal">
           <details>
@@ -1089,7 +1228,7 @@
           <details>
             <summary>Datenschutz</summary>
             <div class="legal-content">
-              <p>Diese Website verarbeitet Kontaktangaben nur zur Bearbeitung von Anfragen. Bei Nutzung externer Dienste wie Google Maps, Hosting, Analytics oder Formular-Mailversand müssen diese hier ergänzt werden.</p>
+              <p>Kontaktangaben werden ausschließlich zur Bearbeitung von Anfragen verwendet. Eine Weitergabe erfolgt nur, wenn sie zur Bearbeitung erforderlich ist oder eine gesetzliche Pflicht besteht.</p>
             </div>
           </details>
           <details>
@@ -1114,7 +1253,7 @@
   </footer>
 
   <div class="cookie" id="cookie">
-    <p><strong>Cookies & Datenschutz:</strong> Diese Demo nutzt nur technisch notwendige Funktionen. Externe Dienste können später ergänzt werden.</p>
+    <p><strong>Cookies & Datenschutz:</strong> Diese Website nutzt notwendige Funktionen für Darstellung, Kontakt und Bedienung.</p>
     <button class="btn secondary" id="cookieReject">Nur notwendig</button>
     <button class="btn" id="cookieAccept">Akzeptieren</button>
   </div>
@@ -1155,17 +1294,28 @@
       });
     }, { threshold: .14 });
     document.querySelectorAll('.reveal').forEach((el) => reveal.observe(el));
+    setTimeout(() => {
+      document.querySelectorAll('.reveal').forEach((el) => el.classList.add('active'));
+    }, 1400);
 
     const form = document.getElementById('form');
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       const button = form.querySelector('button');
-      const original = button.textContent;
-      button.textContent = 'Gesendet ✓';
+      const [name, email, subject, message] = form.querySelectorAll('input, textarea');
+      const body = [
+        `Name: ${name.value}`,
+        `E-Mail: ${email.value}`,
+        '',
+        message.value
+      ].join('\n');
+      const mailto = `mailto:glanzwerkstatt.alzey@gmail.com?subject=${encodeURIComponent(subject.value)}&body=${encodeURIComponent(body)}`;
+      button.textContent = 'E-Mail wird geöffnet';
+      window.location.href = mailto;
       setTimeout(() => {
-        button.textContent = original;
+        button.textContent = 'Anfrage per E-Mail senden';
         form.reset();
-      }, 2200);
+      }, 1200);
     });
 
     const cookie = document.getElementById('cookie');
