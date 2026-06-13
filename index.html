@@ -708,79 +708,6 @@
     .row span:last-child { font-weight: 950; color: #fff; text-align: right; white-space: nowrap; }
     .note { color: var(--muted); line-height: 1.65; margin-top: 18px; font-size: 14px; }
 
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-    .shot {
-      position: relative;
-      min-height: 330px;
-      border-radius: 24px;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      background: #070b12;
-      cursor: pointer;
-      box-shadow: 0 18px 55px rgba(0,0,0,.22);
-      transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
-    }
-    .shot.wide { grid-column: span 2; }
-    .shot img {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      inset: 0;
-      object-fit: cover;
-      object-position: center;
-      transition: transform .45s ease, filter .45s ease;
-    }
-    .shot:hover {
-      transform: translateY(-7px);
-      border-color: rgba(216,184,111,.38);
-      box-shadow: 0 28px 78px rgba(0,0,0,.34), 0 0 48px rgba(216,184,111,.14);
-    }
-    .shot:hover img { transform: scale(1.055); filter: brightness(1.08) contrast(1.08) saturate(1.1); }
-    .shot::before {
-      content: "";
-      position: absolute;
-      z-index: 1;
-      inset: -35% auto -35% -55%;
-      width: 44%;
-      background: linear-gradient(100deg, transparent, rgba(255,226,160,.42), transparent);
-      transform: skewX(-16deg);
-      opacity: 0;
-      pointer-events: none;
-    }
-    .shot:hover::before {
-      animation: goldSweep 1.15s ease forwards;
-    }
-    .shot::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, transparent 38%, rgba(0,0,0,.76));
-      transition: background .25s ease;
-    }
-    .shot:hover::after { background: linear-gradient(180deg, rgba(255,226,160,.08), rgba(0,0,0,.72)); }
-    .tag {
-      position: absolute;
-      z-index: 2;
-      left: 18px;
-      bottom: 18px;
-      background: rgba(7,10,16,.92);
-      border: 1px solid rgba(255,255,255,.14);
-      border-radius: 999px;
-      padding: 10px 13px;
-      font-weight: 950;
-      font-size: 14px;
-      transition: transform .24s ease, border-color .24s ease, background .24s ease;
-    }
-    .shot:hover .tag {
-      transform: translateY(-3px);
-      border-color: rgba(216,184,111,.34);
-      background: rgba(18,14,8,.96);
-    }
-
     .cta {
       display: grid;
       grid-template-columns: 1fr .78fr;
@@ -799,20 +726,17 @@
     }
     .cta h2 { font-family: Cinzel, Georgia, serif; font-size: clamp(36px, 6vw, 70px); line-height: .95; margin-bottom: 18px; }
     .cta p { color: var(--muted); line-height: 1.75; max-width: 620px; }
-    .form { display: grid; gap: 14px; margin-top: 26px; }
-    .form input, .form textarea {
-      width: 100%;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(13,17,24,.96);
-      border-radius: 18px;
-      padding: 17px 18px;
-      color: #fff;
-      font-size: 15px;
-      font-family: inherit;
-      outline: none;
-      resize: vertical;
+    .contact-actions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 28px;
     }
-    .form input:focus, .form textarea:focus { border-color: rgba(216,184,111,.55); box-shadow: 0 0 0 4px rgba(216,184,111,.11), 0 12px 32px rgba(216,184,111,.08); }
+    .contact-actions .btn {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+    }
     .contact-card {
       border: 1px solid var(--line);
       border-radius: 28px;
@@ -831,6 +755,68 @@
     .contact-item:last-child { border-bottom: 0; }
     .contact-item span { display: block; color: var(--muted); font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 7px; }
     .contact-item strong { font-size: 18px; line-height: 1.35; }
+    .map-link {
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: var(--gold-bright);
+      font: inherit;
+      font-weight: 950;
+      cursor: pointer;
+      text-align: left;
+    }
+    .map-link:hover { text-decoration: underline; }
+    .map-popover {
+      position: fixed;
+      inset: 0;
+      z-index: 85;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(12px);
+    }
+    .map-popover.show { display: flex; }
+    .map-box {
+      width: min(430px, calc(100vw - 28px));
+      border: 1px solid rgba(216,184,111,.3);
+      border-radius: 24px;
+      overflow: hidden;
+      background: rgba(8,11,17,.98);
+      box-shadow: 0 34px 100px rgba(0,0,0,.55), 0 0 70px rgba(216,184,111,.14);
+    }
+    .map-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+    .map-head strong { color: var(--gold-bright); font-family: Cinzel, Georgia, serif; }
+    .map-close {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+      color: #fff;
+      font-size: 21px;
+      cursor: pointer;
+    }
+    .map-frame {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border: 0;
+      display: block;
+      filter: saturate(.95) contrast(1.04);
+    }
+    .map-actions {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+    }
 
     .legal {
       display: grid;
@@ -889,6 +875,19 @@
       color: var(--muted);
       line-height: 1.72;
     }
+    .legal-content h3 {
+      color: #fff;
+      font-size: 16px;
+      margin: 20px 0 8px;
+    }
+    .legal-content h3:first-child { margin-top: 0; }
+    .legal-content p { margin-bottom: 12px; }
+    .legal-content ul {
+      margin: 8px 0 16px 18px;
+      display: grid;
+      gap: 7px;
+    }
+    .legal-content li { padding-left: 4px; }
 
     .cookie {
       position: fixed;
@@ -930,38 +929,6 @@
     .footer-grid { display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap; }
     .reveal { opacity: 0; transform: translateY(24px); transition: .75s ease; }
     .reveal.active { opacity: 1; transform: translateY(0); }
-    .modal {
-      position: fixed;
-      z-index: 90;
-      inset: 0;
-      background: rgba(0,0,0,.88);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-    .modal.show { display: flex; }
-    .modal img {
-      max-height: 90vh;
-      max-width: 94vw;
-      object-fit: contain;
-      border-radius: 20px;
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-    .modal button {
-      position: absolute;
-      top: 18px;
-      right: 24px;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.08);
-      color: #fff;
-      font-size: 30px;
-      cursor: pointer;
-    }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -1026,8 +993,6 @@
       .visual { min-height: 500px; order: 2; }
       .services { grid-template-columns: repeat(2, 1fr); }
       .packages { grid-template-columns: 1fr; }
-      .gallery { grid-template-columns: 1fr; }
-      .shot.wide { grid-column: span 1; }
       .price-grid { grid-template-columns: 1fr; }
       .section-head { display: block; }
       .section-head p { margin-top: 16px; }
@@ -1186,19 +1151,6 @@
       }
       .row span:first-child { min-width: 0; }
       .row span:last-child { white-space: normal; }
-      .gallery { gap: 14px; }
-      .shot {
-        min-height: 0;
-        aspect-ratio: 4 / 5;
-        border-radius: 22px;
-      }
-      .shot.wide { aspect-ratio: 1 / 1; }
-      .tag {
-        left: 14px;
-        bottom: 14px;
-        font-size: 13px;
-        padding: 9px 12px;
-      }
       section { padding: 64px 0; }
       .cta {
         padding: 21px;
@@ -1206,10 +1158,9 @@
         gap: 22px;
       }
       .cta h2 { font-size: clamp(34px, 11vw, 48px); }
-      .form input,
-      .form textarea {
-        border-radius: 16px;
-        padding: 15px 16px;
+      .contact-actions {
+        grid-template-columns: 1fr;
+        gap: 10px;
       }
       .contact-card {
         padding: 20px;
@@ -1253,12 +1204,6 @@
         height: 52px;
         font-size: 24px;
       }
-      .modal { padding: 14px; }
-      .modal img { max-width: 96vw; border-radius: 16px; }
-      .modal button {
-        top: 12px;
-        right: 12px;
-      }
     }
     @media (max-width: 380px) {
       .brand span { max-width: 124px; font-size: 13px; }
@@ -1281,7 +1226,7 @@
       <a href="#pakete">Pakete</a>
       <a href="#ablauf">Ablauf</a>
       <a href="#preise">Preise</a>
-      <a href="#galerie">Galerie</a>
+      <a href="galerie.html">Galerie</a>
       <a href="#kontakt">Kontakt</a>
       <a href="#rechtliches">Rechtliches</a>
     </nav>
@@ -1299,6 +1244,7 @@
           <div class="actions">
             <a class="btn" href="#kontakt">Jetzt Termin anfragen</a>
             <a class="btn secondary" href="#preise">Preisliste ansehen</a>
+            <a class="btn secondary" href="galerie.html">Galerie öffnen</a>
           </div>
           <div class="stats">
             <div class="stat"><strong>100%</strong><span>saubere Handarbeit</span></div>
@@ -1336,39 +1282,45 @@
       <div class="container">
         <div class="section-head reveal">
           <h2>Drei Pakete. Ein Ziel: maximaler Glanz.</h2>
-          <p>Gold, Platin und Diamant geben dir eine klare Richtung. Den exakten Umfang stimmen wir passend zu Fahrzeug, Zustand und Anspruch ab.</p>
+          <p>Basis, Gold und Diamant geben dir eine klare Richtung für die Innenraumaufbereitung. Den exakten Umfang stimmen wir passend zu Fahrzeug, Zustand und Anspruch ab.</p>
         </div>
         <div class="packages reveal">
           <article class="package-card">
-            <span class="package-kicker">Gold</span>
-            <h3>Der gepflegte Einstieg</h3>
-            <p>Für Fahrzeuge, die schnell wieder frisch, sauber und hochwertig auftreten sollen.</p>
+            <span class="package-kicker">Basis</span>
+            <h3>Regelmäßige Innenraumpflege</h3>
+            <p>Für einen sauberen, gepflegten Fahrzeuginnenraum und die regelmäßige Auffrischung.</p>
             <ul>
-              <li>Außen- und Innenpflege nach Fahrzeugzustand</li>
-              <li>Frischer Look für Alltag, Übergabe oder Verkauf</li>
-              <li>Saubere Empfehlung vor Arbeitsbeginn</li>
+              <li>Gründliches Aussaugen des Fahrzeuginnenraums</li>
+              <li>Reinigung der Fußräume</li>
+              <li>Abwischen von Armaturen und Bedienelementen</li>
+              <li>Reinigung der Innenfenster und Spiegel</li>
+              <li>Allgemeine Auffrischung des Innenraums</li>
             </ul>
-            <a class="btn secondary" href="#kontakt">Gold anfragen</a>
+            <a class="btn secondary" href="#kontakt">Basis anfragen</a>
           </article>
           <article class="package-card featured">
-            <span class="package-kicker">Platin</span>
-            <h3>Der Premium-Auftritt</h3>
-            <p>Für mehr Tiefe, mehr Präsenz und ein Fahrzeug, das wieder richtig wertig wirkt.</p>
+            <span class="package-kicker">Gold</span>
+            <h3>Gründliche Detailpflege</h3>
+            <p>Für eine deutlich intensivere Innenraumreinigung mit gepflegtem Finish bis ins Detail.</p>
             <ul>
-              <li>Erweiterte Reinigung mit stimmigem Lackfinish</li>
-              <li>Passender Schutz je nach Nutzung und Zustand</li>
-              <li>Ideal für regelmäßige Premium-Pflege</li>
+              <li>Alle Leistungen aus dem Basis Paket</li>
+              <li>Intensives Aussaugen des gesamten Innenraums</li>
+              <li>Gründliche Reinigung des Kofferraums</li>
+              <li>Reinigung schwer zugänglicher Bereiche</li>
+              <li>Pflege und Schutz aller Kunststoffoberflächen</li>
             </ul>
-            <a class="btn" href="#kontakt">Platin anfragen</a>
+            <a class="btn" href="#kontakt">Gold anfragen</a>
           </article>
           <article class="package-card">
             <span class="package-kicker">Diamant</span>
-            <h3>Das volle Finish</h3>
-            <p>Für Fahrzeuge, bei denen Glanz, Detailtiefe und Wirkung bis ins letzte Detail zählen.</p>
+            <h3>Premium-Tiefenreinigung</h3>
+            <p>Für höchste Ansprüche: tiefenwirksame Reinigung, hochwertige Pflege und langfristiger Schutz.</p>
             <ul>
-              <li>Intensive Aufbereitung mit Fokus auf Details</li>
-              <li>Hochwertiges Finish mit maximaler Wirkung</li>
-              <li>Umfang nach persönlicher Begutachtung</li>
+              <li>Alle Leistungen aus Basis und Gold</li>
+              <li>Nasssauger-Extraktionsreinigung für Stoff- und Alcantara-Sitze</li>
+              <li>Entfernung von tiefsitzendem Schmutz und Flecken</li>
+              <li>Lederreinigung, Lederpflege und Bienenwachs-Versiegelung</li>
+              <li>Optional: Ozonbehandlung zur Geruchsneutralisierung</li>
             </ul>
             <a class="btn secondary" href="#kontakt">Diamant anfragen</a>
           </article>
@@ -1440,46 +1392,25 @@
       </div>
     </section>
 
-    <section id="galerie">
-      <div class="container">
-        <div class="section-head reveal">
-          <h2>Echte Ergebnisse aus der Werkstatt.</h2>
-          <p>Ausgewählte Fahrzeuge, echte Werkstattmomente und Details, die den Unterschied sichtbar machen.</p>
-        </div>
-        <div class="gallery reveal">
-          <div class="shot wide" data-img="assets/images/gallery/bmw-m4-coupe.jpg"><img loading="lazy" src="assets/images/gallery/bmw-m4-coupe.jpg" alt="BMW Coupé aufbereitet"><span class="tag">Tiefenglanz</span></div>
-          <div class="shot" data-img="assets/images/gallery/alfa-romeo-giulia-censored.jpg"><img loading="lazy" src="assets/images/gallery/alfa-romeo-giulia-censored.jpg" alt="Alfa Romeo Aufbereitung"><span class="tag">Showroom Finish</span></div>
-          <div class="shot" data-img="assets/images/gallery/corvette-front-censored.jpg"><img loading="lazy" src="assets/images/gallery/corvette-front-censored.jpg" alt="Corvette Front"><span class="tag">Sportwagen Pflege</span></div>
-          <div class="shot" data-img="assets/images/gallery/corvette-rear-censored.jpg"><img loading="lazy" src="assets/images/gallery/corvette-rear-censored.jpg" alt="Corvette Heck"><span class="tag">Lack & Details</span></div>
-          <div class="shot" data-img="assets/images/gallery/bmw-m2-front.jpg"><img loading="lazy" src="assets/images/gallery/bmw-m2-front.jpg" alt="BMW M2 vor der Werkstatt"><span class="tag">Werkstattmoment</span></div>
-          <div class="shot wide" data-img="assets/images/gallery/porsche-cayenne-censored.jpg"><img loading="lazy" src="assets/images/gallery/porsche-cayenne-censored.jpg" alt="Porsche Cayenne"><span class="tag">Premium Service</span></div>
-          <div class="shot" data-img="assets/images/gallery/bmw-lackdetail.jpg"><img loading="lazy" src="assets/images/gallery/bmw-lackdetail.jpg" alt="Lack Detail"><span class="tag">Lackdetail</span></div>
-          <div class="shot" data-img="assets/images/gallery/onlycars-brand-shot.jpg"><img loading="lazy" src="assets/images/gallery/onlycars-brand-shot.jpg" alt="GlanzWerkstatt Szene"><span class="tag">Brand Moment</span></div>
-        </div>
-      </div>
-    </section>
-
     <section id="kontakt">
       <div class="container">
         <div class="cta reveal">
           <div>
-            <h2>Termin anfragen.</h2>
-            <p>Schick uns Fahrzeug, Wunschleistung und Zustand. Wir melden uns mit einer ehrlichen Einschätzung und einem passenden Terminvorschlag.</p>
-            <form class="form" id="form">
-              <input type="text" placeholder="Dein Name" required>
-              <input type="email" placeholder="Deine E-Mail" required>
-              <input type="text" placeholder="Betreff" required>
-              <textarea rows="5" placeholder="Fahrzeug, gewünschte Leistung, Zustand, Wunschtermin..." required></textarea>
-              <button class="btn" type="submit">Anfrage per E-Mail senden</button>
-              <p class="note">Für schnelle Rückfragen erreichst du uns auch direkt per Telefon oder WhatsApp.</p>
-            </form>
+            <h2>Direkt Kontakt aufnehmen.</h2>
+            <p>Kein unnötiges Formular: Wähle den schnellsten Weg, schick uns Fahrzeug, Wunschleistung und ein paar Bilder. Wir melden uns mit einer ehrlichen Einschätzung und einem passenden Terminvorschlag.</p>
+            <div class="contact-actions">
+              <a class="btn" href="https://wa.me/4915128823940" target="_blank" rel="noreferrer">WhatsApp öffnen</a>
+              <a class="btn secondary" href="tel:+4915128823940">Telefon öffnen</a>
+              <a class="btn secondary" href="mailto:glanzwerkstatt.alzey@gmail.com?subject=Termin%20anfragen%20-%20GlanzWerkstatt">Mail öffnen</a>
+            </div>
+            <p class="note">Tipp: Für eine genaue Einschätzung helfen Modell, Baujahr, gewünschte Leistung und Fotos vom aktuellen Zustand.</p>
           </div>
           <div class="contact-card">
             <div class="contact-item"><span>Adresse</span><strong>Karl-Heinz-Kipp-Straße 28<br>55232 Alzey</strong></div>
             <div class="contact-item"><span>Telefon</span><strong><a href="tel:+4915128823940">0151 / 288 239 40</a></strong></div>
             <div class="contact-item"><span>E-Mail</span><strong><a href="mailto:glanzwerkstatt.alzey@gmail.com">glanzwerkstatt.alzey@gmail.com</a></strong></div>
-            <div class="contact-item"><span>Öffnungszeiten</span><strong>Nach Absprache</strong></div>
-            <div class="contact-item"><span>Route</span><strong><a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/?api=1&query=Karl-Heinz-Kipp-Stra%C3%9Fe%2028%2055232%20Alzey">Google Maps öffnen</a></strong></div>
+            <div class="contact-item"><span>Öffnungszeiten</span><strong>Montag bis Freitag<br>10:00 - 20:00 Uhr</strong></div>
+            <div class="contact-item"><span>Route</span><strong><button class="map-link" id="mapOpen" type="button">Google Maps ansehen</button></strong></div>
           </div>
         </div>
       </div>
@@ -1489,25 +1420,86 @@
       <div class="container">
         <div class="section-head reveal">
           <h2>Rechtliches.</h2>
-          <p>Impressum, Datenschutz und Geschäftsbedingungen sauber zusammengefasst.</p>
+          <p>Impressum, Datenschutz und Geschäftsbedingungen transparent zusammengefasst. Stand: Juni 2026.</p>
         </div>
         <div class="legal reveal">
           <details>
             <summary>Impressum</summary>
             <div class="legal-content">
-              <p>GlanzWerkstatt<br>Inhaber: Artur Derr<br>Karl-Heinz-Kipp-Straße 28, 55232 Alzey<br>Telefon: 0151 / 288 239 40<br>E-Mail: glanzwerkstatt.alzey@gmail.com<br>USt-IdNr.: DE410265621<br>Steuer-Nr.: 08/029/53435</p>
+              <h3>Angaben gemäß § 5 DDG</h3>
+              <p>GlanzWerkstatt<br>Artur Derr, Einzelunternehmen<br>Karl-Heinz-Kipp-Straße 28<br>55232 Alzey<br>Deutschland</p>
+              <h3>Kontakt</h3>
+              <p>Telefon: <a href="tel:+4915128823940">0151 / 288 239 40</a><br>E-Mail: <a href="mailto:glanzwerkstatt.alzey@gmail.com">glanzwerkstatt.alzey@gmail.com</a></p>
+              <h3>Umsatzsteuer und Steuernummer</h3>
+              <p>USt-IdNr.: DE410265621<br>Steuer-Nr.: 08/029/53435</p>
+              <h3>Registerangaben</h3>
+              <p>GlanzWerkstatt wird als Einzelunternehmen geführt. Es besteht kein Handelsregistereintrag.</p>
+              <h3>Verantwortlich für den Inhalt</h3>
+              <p>Artur Derr<br>Karl-Heinz-Kipp-Straße 28<br>55232 Alzey</p>
+              <h3>Verbraucherstreitbeilegung</h3>
+              <p>Wir sind nicht verpflichtet und nicht bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+              <h3>Haftung für Inhalte und Links</h3>
+              <p>Die Inhalte dieser Website werden mit Sorgfalt erstellt. Für Richtigkeit, Vollständigkeit und Aktualität kann dennoch keine Gewähr übernommen werden. Externe Links führen zu Angeboten Dritter, auf deren Inhalte wir keinen Einfluss haben.</p>
             </div>
           </details>
           <details>
             <summary>Datenschutz</summary>
             <div class="legal-content">
-              <p>Kontaktangaben werden ausschließlich zur Bearbeitung von Anfragen verwendet. Eine Weitergabe erfolgt nur, wenn sie zur Bearbeitung erforderlich ist oder eine gesetzliche Pflicht besteht.</p>
+              <h3>1. Verantwortlicher</h3>
+              <p>Verantwortlich für die Datenverarbeitung auf dieser Website ist GlanzWerkstatt, Artur Derr, Karl-Heinz-Kipp-Straße 28, 55232 Alzey. Kontakt: <a href="mailto:glanzwerkstatt.alzey@gmail.com">glanzwerkstatt.alzey@gmail.com</a>, Telefon: <a href="tel:+4915128823940">0151 / 288 239 40</a>.</p>
+              <h3>2. Allgemeine Hinweise</h3>
+              <p>Wir verarbeiten personenbezogene Daten nur, soweit dies für Darstellung, Kontaktaufnahme, Terminabstimmung, Angebotserstellung, Leistungserbringung oder gesetzliche Pflichten erforderlich ist. Personenbezogene Daten sind alle Informationen, mit denen eine Person direkt oder indirekt identifiziert werden kann.</p>
+              <h3>3. Zugriffsdaten und Hosting</h3>
+              <p>Beim Aufruf der Website können durch den Hosting-Anbieter technische Zugriffsdaten verarbeitet werden, zum Beispiel IP-Adresse, Datum und Uhrzeit des Abrufs, aufgerufene Datei, Browsertyp, Betriebssystem, Referrer-URL und übertragene Datenmenge. Diese Daten dienen der sicheren und stabilen Bereitstellung der Website, der Fehleranalyse und dem Schutz vor Missbrauch.</p>
+              <p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt im sicheren Betrieb dieser Website.</p>
+              <h3>4. Kontakt per WhatsApp, Telefon oder E-Mail</h3>
+              <p>Wenn du uns kontaktierst, verarbeiten wir die von dir übermittelten Daten, zum Beispiel Name, Telefonnummer, E-Mail-Adresse, Fahrzeugdaten, Fotos, Nachrichteninhalte und Termininformationen. Die Verarbeitung erfolgt zur Bearbeitung deiner Anfrage, zur Beratung, zur Angebotserstellung und zur Durchführung vorvertraglicher oder vertraglicher Maßnahmen.</p>
+              <p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, soweit die Kontaktaufnahme auf einen Auftrag oder eine Vertragsanbahnung gerichtet ist. In anderen Fällen erfolgt die Verarbeitung auf Grundlage unseres berechtigten Interesses an der Beantwortung von Anfragen gemäß Art. 6 Abs. 1 lit. f DSGVO.</p>
+              <p>Bei Nutzung von WhatsApp gelten zusätzlich die Datenschutzbedingungen des jeweiligen Anbieters. Bitte sende über WhatsApp keine sensiblen Daten, die für die Anfrage nicht erforderlich sind.</p>
+              <h3>5. Fotos und Fahrzeugdaten</h3>
+              <p>Fotos, Videos, Kennzeichen, Fahrzeugidentifikationsdaten oder Angaben zum Fahrzeugzustand werden nur verarbeitet, wenn sie für Beratung, Dokumentation, Angebot oder Durchführung der Leistung erforderlich sind. Veröffentlichungen zu Referenz- oder Werbezwecken erfolgen nur, wenn eine entsprechende Einwilligung vorliegt oder erkennbare personenbezogene Bezüge zuvor entfernt wurden.</p>
+              <h3>6. Cookies und lokale Speicherung</h3>
+              <p>Diese Website nutzt keine Tracking-Cookies und keine Analyse-Tools. Der Cookie-Hinweis speichert lediglich lokal im Browser, ob die Auswahl getroffen wurde. Diese Speicherung ist technisch notwendig, damit der Hinweis nicht bei jedem Seitenaufruf erneut erscheint.</p>
+              <h3>7. Google Fonts und externe Dienste</h3>
+              <p>Zur hochwertigen Darstellung können Schriftarten von Google Fonts eingebunden werden. Dabei kann der Browser Verbindung zu Servern von Google aufnehmen und technische Daten wie die IP-Adresse übermitteln. Außerdem enthält die Website externe Links zu WhatsApp und Google Maps. Diese Dienste werden erst aktiv aufgerufen, wenn du den jeweiligen Link anklickst.</p>
+              <h3>8. Empfänger und Weitergabe</h3>
+              <p>Eine Weitergabe personenbezogener Daten erfolgt nur, wenn sie zur Bearbeitung deiner Anfrage oder zur Durchführung des Auftrags erforderlich ist, wenn eine gesetzliche Pflicht besteht oder wenn du eingewilligt hast. Eine Weitergabe zu Werbezwecken findet nicht statt.</p>
+              <h3>9. Speicherdauer</h3>
+              <p>Wir speichern personenbezogene Daten nur so lange, wie es für den jeweiligen Zweck erforderlich ist. Daten aus Anfragen werden gelöscht, sobald sie nicht mehr benötigt werden, sofern keine gesetzlichen Aufbewahrungsfristen, steuerlichen Pflichten oder berechtigten Interessen entgegenstehen.</p>
+              <h3>10. Deine Rechte</h3>
+              <p>Du hast nach Maßgabe der DSGVO das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit sowie Widerspruch gegen bestimmte Verarbeitungen. Erteilte Einwilligungen kannst du jederzeit mit Wirkung für die Zukunft widerrufen.</p>
+              <p>Außerdem hast du das Recht, dich bei einer Datenschutzaufsichtsbehörde zu beschweren, wenn du der Ansicht bist, dass die Verarbeitung deiner personenbezogenen Daten gegen Datenschutzrecht verstößt.</p>
+              <h3>11. Sicherheit</h3>
+              <p>Wir behandeln deine Daten vertraulich und treffen angemessene technische und organisatorische Maßnahmen, um personenbezogene Daten vor Verlust, Missbrauch und unbefugtem Zugriff zu schützen.</p>
             </div>
           </details>
           <details>
             <summary>AGB</summary>
             <div class="legal-content">
-              <p>Leistungen erfolgen nach individueller Absprache. Preise können je nach Fahrzeugzustand, Größe und Aufwand abweichen. Termine gelten erst nach Bestätigung durch GlanzWerkstatt als verbindlich.</p>
+              <h3>1. Geltungsbereich</h3>
+              <p>Diese Allgemeinen Geschäftsbedingungen gelten für alle Leistungen von GlanzWerkstatt, Artur Derr, gegenüber Kundinnen und Kunden. Abweichende Vereinbarungen gelten nur, wenn sie ausdrücklich individuell vereinbart wurden.</p>
+              <h3>2. Angebote und Vertragsschluss</h3>
+              <p>Darstellungen auf der Website, Preislisten und Paketbeschreibungen sind unverbindliche Orientierungshilfen. Ein verbindlicher Auftrag kommt erst zustande, wenn Leistungsumfang, Termin und Preis individuell abgestimmt und durch GlanzWerkstatt bestätigt wurden.</p>
+              <h3>3. Leistungsumfang</h3>
+              <p>Der konkrete Leistungsumfang richtet sich nach der individuellen Absprache, dem Fahrzeugzustand und dem gewünschten Ergebnis. Sichtbare Preise verstehen sich als Richtwerte. Zusätzlicher Aufwand, starke Verschmutzung, Tierhaare, Gerüche, Lackdefekte, Sondergrößen, Spezialmaterialien oder nicht erkennbare Vorschäden können zu abweichenden Preisen führen.</p>
+              <h3>4. Fahrzeugzustand und Mitwirkungspflichten</h3>
+              <p>Kundinnen und Kunden sind verpflichtet, vor Beginn der Leistung auf bekannte Schäden, empfindliche Materialien, technische Besonderheiten, Undichtigkeiten, lose Bauteile, Nachlackierungen oder sonstige relevante Umstände hinzuweisen. Wertgegenstände sind vor Übergabe aus dem Fahrzeug zu entfernen.</p>
+              <h3>5. Termine und Fahrzeugübergabe</h3>
+              <p>Termine gelten erst nach Bestätigung als verbindlich. Kann ein Termin nicht eingehalten werden, ist GlanzWerkstatt frühzeitig zu informieren. Bei verspäteter Übergabe, verspäteter Abholung oder kurzfristiger Absage können Mehraufwand und Ausfallzeiten angemessen berücksichtigt werden.</p>
+              <h3>6. Preise und Zahlung</h3>
+              <p>Der endgültige Preis richtet sich nach dem vereinbarten Leistungsumfang und dem tatsächlichen Fahrzeugzustand. Zahlungen sind spätestens bei Abholung des Fahrzeugs fällig, sofern nichts anderes vereinbart wurde. Akzeptierte Zahlungsarten werden individuell abgestimmt.</p>
+              <h3>7. Ergebnis und Grenzen der Aufbereitung</h3>
+              <p>GlanzWerkstatt arbeitet sorgfältig und fachgerecht. Ein bestimmtes optisches Ergebnis kann jedoch nicht garantiert werden, wenn der Fahrzeugzustand, Materialalterung, tiefe Kratzer, Lackschäden, eingebrannte Verschmutzungen, Gerüche oder Vorschäden eine vollständige Beseitigung nicht zulassen.</p>
+              <h3>8. Beanstandungen und Nachbesserung</h3>
+              <p>Offensichtliche Beanstandungen sind möglichst direkt bei Abholung, spätestens jedoch zeitnah nach Übergabe mitzuteilen. Bei berechtigten Beanstandungen erhält GlanzWerkstatt zunächst die Möglichkeit zur Nachbesserung.</p>
+              <h3>9. Haftung</h3>
+              <p>GlanzWerkstatt haftet nach den gesetzlichen Vorschriften bei Vorsatz, grober Fahrlässigkeit sowie bei Verletzung von Leben, Körper oder Gesundheit. Für einfache Fahrlässigkeit wird nur bei Verletzung wesentlicher Vertragspflichten gehaftet, begrenzt auf den vorhersehbaren, vertragstypischen Schaden. Für Schäden, die auf verschwiegene Vorschäden, lose Bauteile, nicht erkennbare Materialmängel oder unsachgemäße Vorbehandlung zurückzuführen sind, wird keine Haftung übernommen, soweit gesetzlich zulässig.</p>
+              <h3>10. Fotos, Videos und Referenzen</h3>
+              <p>Fotos oder Videos von Kundenfahrzeugen werden für Werbung oder Referenzen nur verwendet, wenn eine Einwilligung vorliegt oder personenbezogene Merkmale, insbesondere Kennzeichen und identifizierende Daten, unkenntlich gemacht wurden.</p>
+              <h3>11. Eigentumsvorbehalt und Unterlagen</h3>
+              <p>Ausgehändigte Produkte, Unterlagen oder sonstige Leistungen bleiben bis zur vollständigen Bezahlung Eigentum von GlanzWerkstatt, soweit dies rechtlich möglich ist.</p>
+              <h3>12. Schlussbestimmungen</h3>
+              <p>Es gilt deutsches Recht. Sollten einzelne Bestimmungen unwirksam sein oder werden, bleibt die Wirksamkeit der übrigen Regelungen unberührt. Individuelle Absprachen haben Vorrang vor diesen AGB.</p>
             </div>
           </details>
         </div>
@@ -1531,7 +1523,23 @@
     <button class="btn" id="cookieAccept">Akzeptieren</button>
   </div>
   <a class="whatsapp" href="https://wa.me/4915128823940" target="_blank" rel="noreferrer" aria-label="WhatsApp öffnen">☎</a>
-  <div class="modal" id="modal"><button id="modalClose" aria-label="Galerie schließen">×</button><img id="modalImg" alt="Galerie Bild"></div>
+  <div class="map-popover" id="mapPopover" aria-hidden="true">
+    <div class="map-box" role="dialog" aria-modal="true" aria-label="Google Maps Ansicht GlanzWerkstatt">
+      <div class="map-head">
+        <strong>GlanzWerkstatt Alzey</strong>
+        <button class="map-close" id="mapClose" type="button" aria-label="Karte schließen">×</button>
+      </div>
+      <iframe
+        class="map-frame"
+        title="Google Maps Karte GlanzWerkstatt Alzey"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=Karl-Heinz-Kipp-Stra%C3%9Fe%2028%2055232%20Alzey&output=embed"></iframe>
+      <div class="map-actions">
+        <a class="btn" target="_blank" rel="noreferrer" href="https://www.google.com/maps/dir/?api=1&destination=Karl-Heinz-Kipp-Stra%C3%9Fe%2028%2055232%20Alzey">Route planen</a>
+      </div>
+    </div>
+  </div>
 
   <script>
     const menuBtn = document.getElementById('menuBtn');
@@ -1558,6 +1566,25 @@
       });
     });
 
+    const mapOpen = document.getElementById('mapOpen');
+    const mapPopover = document.getElementById('mapPopover');
+    const mapClose = document.getElementById('mapClose');
+    const closeMap = () => {
+      mapPopover.classList.remove('show');
+      mapPopover.setAttribute('aria-hidden', 'true');
+    };
+    mapOpen.addEventListener('click', () => {
+      mapPopover.classList.add('show');
+      mapPopover.setAttribute('aria-hidden', 'false');
+    });
+    mapClose.addEventListener('click', closeMap);
+    mapPopover.addEventListener('click', (event) => {
+      if (event.target === mapPopover) closeMap();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeMap();
+    });
+
     const reveal = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -1570,26 +1597,6 @@
     setTimeout(() => {
       document.querySelectorAll('.reveal').forEach((el) => el.classList.add('active'));
     }, 1400);
-
-    const form = document.getElementById('form');
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const button = form.querySelector('button');
-      const [name, email, subject, message] = form.querySelectorAll('input, textarea');
-      const body = [
-        `Name: ${name.value}`,
-        `E-Mail: ${email.value}`,
-        '',
-        message.value
-      ].join('\n');
-      const mailto = `mailto:glanzwerkstatt.alzey@gmail.com?subject=${encodeURIComponent(subject.value)}&body=${encodeURIComponent(body)}`;
-      button.textContent = 'E-Mail wird geöffnet';
-      window.location.href = mailto;
-      setTimeout(() => {
-        button.textContent = 'Anfrage per E-Mail senden';
-        form.reset();
-      }, 1200);
-    });
 
     const cookie = document.getElementById('cookie');
     if (!localStorage.getItem('gwCookie')) {
@@ -1604,21 +1611,6 @@
       cookie.classList.remove('show');
     };
 
-    const modal = document.getElementById('modal');
-    const modalImg = document.getElementById('modalImg');
-    document.querySelectorAll('.shot').forEach((shot) => {
-      shot.addEventListener('click', () => {
-        modalImg.src = shot.dataset.img;
-        modal.classList.add('show');
-      });
-    });
-    document.getElementById('modalClose').onclick = () => modal.classList.remove('show');
-    modal.addEventListener('click', (event) => {
-      if (event.target === modal) modal.classList.remove('show');
-    });
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') modal.classList.remove('show');
-    });
   </script>
 </body>
 </html>

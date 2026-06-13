@@ -1,6 +1,9 @@
 STARTEN:
 1. ZIP komplett entpacken
 2. index.html doppelklicken
-3. Den Ordner assets nicht verschieben oder löschen
+3. Galerie ueber den Button "Galerie oeffnen" oder direkt galerie.html starten
+4. Den Ordner assets nicht verschieben oder loeschen
 
-Die Website ist weiterhin eine Singlepage-Version ohne extra HTML-Seiten.
+MEDIEN:
+- Bilder: assets/images/gallery
+- Videos: assets/videos/gallery
