@@ -59,16 +59,6 @@
       filter: blur(42px);
       opacity: .82;
       z-index: -1;
-      animation: goldFade 12s ease-in-out infinite alternate;
-    }
-    @keyframes goldFade {
-      from { transform: translate3d(-2%, 2%, 0); opacity: .68; }
-      to { transform: translate3d(4%, -4%, 0); opacity: .9; }
-    }
-    @keyframes goldSweep {
-      0% { transform: translateX(-135%) skewX(-16deg); opacity: 0; }
-      18% { opacity: .7; }
-      46%, 100% { transform: translateX(135%) skewX(-16deg); opacity: 0; }
     }
     a { color: inherit; text-decoration: none; }
     img, video { display: block; max-width: 100%; }
@@ -278,7 +268,6 @@
       opacity: 0;
       pointer-events: none;
     }
-    .media-card:hover .shine { animation: goldSweep 1.15s ease forwards; }
     .tag {
       position: absolute;
       z-index: 4;
@@ -420,6 +409,77 @@
       .modal-stage { border-radius: 16px; }
       .modal-stage::after { right: 10px; bottom: 10px; font-size: 12px; }
     }
+
+    /* Galerie: ruhige, redaktionelle Darstellung statt dekorativer UI-Effekte */
+    .nav {
+      border-radius: 14px;
+      background: rgba(7,10,15,.98);
+      backdrop-filter: none;
+      box-shadow: 0 12px 34px rgba(0,0,0,.28);
+    }
+    .brand-mark { box-shadow: none; }
+    .links a, .pill {
+      border-radius: 7px;
+    }
+    .links a:hover, .pill:hover {
+      background: transparent;
+      color: var(--gold-bright);
+    }
+    .btn {
+      border-radius: 7px;
+      background: var(--gold-bright);
+      box-shadow: 0 8px 20px rgba(0,0,0,.2);
+      transition: transform .2s ease, background .2s ease;
+    }
+    .btn:hover {
+      transform: translateY(-1px);
+      filter: none;
+      box-shadow: 0 10px 24px rgba(0,0,0,.26);
+    }
+    .btn.secondary { background: rgba(255,255,255,.07); }
+    .eyebrow {
+      padding: 3px 0 3px 12px;
+      border: 0;
+      border-left: 2px solid var(--gold);
+      border-radius: 0;
+      background: transparent;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--gold-bright);
+    }
+    .gradient { color: var(--gold-bright); }
+    .media-card {
+      border-radius: 10px;
+      box-shadow: 0 18px 48px rgba(0,0,0,.28);
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    .media-card:hover {
+      transform: none;
+      box-shadow: 0 22px 58px rgba(0,0,0,.36);
+    }
+    .media-card:hover img, .media-card:hover video {
+      transform: none;
+      filter: brightness(1.02) contrast(1.04) saturate(1.04);
+    }
+    .media-card::before {
+      border-radius: 0;
+      background: rgba(7,10,16,.72);
+      backdrop-filter: none;
+    }
+    .shine { display: none; }
+    .tag {
+      border-radius: 6px;
+      padding: 8px 10px;
+      background: rgba(7,10,16,.88);
+    }
+    .modal-stage { border-radius: 10px; }
+    .modal-stage::after { border-radius: 6px; backdrop-filter: none; }
+    @media (max-width: 620px) {
+      .nav { border-radius: 12px; }
+      .media-card, .media-card.wide { border-radius: 10px; }
+    }
   </style>
 </head>
 <body>
@@ -507,7 +567,7 @@
         <span class="brand-mark"><img src="assets/images/brand/logo-primary.jpg" alt="GlanzWerkstatt Logo"></span>
         <span>GlanzWerkstatt</span>
       </a>
-      <p>© <span id="year"></span> GlanzWerkstatt Alzey. Alle Rechte vorbehalten.</p>
+      <p>© <span id="year"></span> GlanzWerkstatt Alzey. Alle Rechte vorbehalten. · <a href="https://www.instagram.com/glanzwerkstatt_alzey" target="_blank" rel="noopener noreferrer">Instagram</a></p>
     </div>
   </footer>
 
