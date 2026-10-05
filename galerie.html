@@ -46,6 +46,7 @@
       background-size: 64px 64px, 64px 64px, 192px 192px, 192px 192px, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
       background-attachment: fixed;
     }
+    body.modal-open { overflow: hidden; }
     body::after {
       content: "";
       position: fixed;
@@ -61,6 +62,7 @@
       z-index: -1;
     }
     a { color: inherit; text-decoration: none; }
+    :focus-visible { outline: 3px solid var(--gold-bright); outline-offset: 3px; }
     img, video { display: block; max-width: 100%; }
     .container { width: min(var(--max), calc(100vw - 34px)); margin: auto; }
     .serif { font-family: Cinzel, Georgia, serif; }
@@ -113,6 +115,17 @@
     .links a:hover, .pill:hover {
       color: var(--gold-bright);
       background: rgba(216,184,111,.1);
+    }
+    .menu {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      font-size: 22px;
+      cursor: pointer;
     }
     .btn {
       position: relative;
@@ -280,38 +293,6 @@
       font-weight: 950;
       font-size: 14px;
     }
-    .video-placeholder {
-      display: grid;
-      place-items: center;
-      height: 100%;
-      min-height: 330px;
-      padding: 28px;
-      background:
-        radial-gradient(circle at 22% 12%, rgba(216,184,111,.24), transparent 34%),
-        linear-gradient(145deg, rgba(30,25,16,.96), rgba(9,13,20,.96));
-    }
-    .play {
-      width: 74px;
-      height: 74px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      border: 1px solid rgba(216,184,111,.45);
-      background: rgba(216,184,111,.13);
-      color: var(--gold-bright);
-      font-size: 34px;
-      box-shadow: 0 0 48px rgba(216,184,111,.16);
-    }
-    .placeholder-copy {
-      position: absolute;
-      z-index: 4;
-      left: 20px;
-      right: 20px;
-      bottom: 64px;
-      color: var(--muted);
-      line-height: 1.55;
-      font-weight: 700;
-    }
     .modal {
       position: fixed;
       inset: 0;
@@ -377,14 +358,29 @@
       body { background-attachment: scroll; background-size: 56px 56px, 56px 56px, 168px 168px, 168px 168px, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%; }
       .nav { left: 9px; right: 9px; width: auto; transform: none; }
       .brand span:last-child { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-      .links { display: none; }
+      .links {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 10px;
+        border-radius: 12px;
+        background: rgba(5,8,14,.98);
+        border: 1px solid rgba(216,184,111,.2);
+        display: none;
+      }
+      .links.open { display: flex; }
+      .links a { padding: 14px 16px; }
+      .menu { display: block; }
       .media-grid { grid-template-columns: 1fr 1fr; }
       .section-head { display: block; }
       .section-head p { margin-top: 14px; }
     }
     @media (max-width: 620px) {
       .container { width: min(var(--max), calc(100vw - 22px)); }
-      .nav { top: 10px; padding: 8px; border-radius: 24px; }
+      .nav { top: 10px; padding: 8px; border-radius: 12px; }
       .brand { gap: 9px; font-size: 14px; }
       .brand-mark { width: 44px; height: 44px; }
       .pill { padding: 11px 13px; font-size: 13px; }
@@ -401,7 +397,6 @@
         border-radius: 22px;
       }
       .media-card.wide { aspect-ratio: 1 / 1; }
-      .video-placeholder { min-height: 0; height: 100%; }
       .section { padding: 46px 0 58px; }
       .section-head h2 { font-size: clamp(31px, 10vw, 42px); }
       .section-head p { font-size: 15px; }
@@ -463,6 +458,18 @@
       transform: none;
       filter: brightness(1.02) contrast(1.04) saturate(1.04);
     }
+    .media-card:focus-visible { border-color: var(--gold-bright); }
+    .showcase-card video {
+      object-fit: contain;
+      background: #040609;
+    }
+    .showcase-card {
+      grid-column: span 2;
+      width: min(100%, 420px);
+      min-height: 0;
+      aspect-ratio: 9 / 16;
+      justify-self: center;
+    }
     .media-card::before {
       border-radius: 0;
       background: rgba(7,10,16,.72);
@@ -479,6 +486,11 @@
     @media (max-width: 620px) {
       .nav { border-radius: 12px; }
       .media-card, .media-card.wide { border-radius: 10px; }
+      .media-card.showcase-card.wide {
+        grid-column: auto;
+        width: 100%;
+        aspect-ratio: 9 / 16;
+      }
     }
   </style>
 </head>
@@ -488,26 +500,44 @@
       <span class="brand-mark"><img src="assets/images/brand/logo-primary.jpg" alt="GlanzWerkstatt Logo"></span>
       <span>GlanzWerkstatt</span>
     </a>
-    <nav class="links" aria-label="Galerie Navigation">
+    <nav class="links" id="galleryNavLinks" aria-label="Galerie Navigation">
       <a href="index.html#leistungen">Leistungen</a>
       <a href="index.html#preise">Preise</a>
+      <a href="#showcase">Showcase</a>
       <a href="#bilder">Bilder</a>
       <a href="#videos">Videos</a>
       <a href="index.html#kontakt">Kontakt</a>
     </nav>
     <a class="pill" href="index.html#home">Startseite</a>
+    <button class="menu" id="galleryMenuBtn" type="button" aria-label="Menü öffnen" aria-controls="galleryNavLinks" aria-expanded="false">☰</button>
   </header>
 
   <main>
     <section class="hero">
       <div class="container">
-        <div class="eyebrow"><span class="dot"></span> Galerie · Bilder & Videos</div>
-        <h1>Ergebnisse, die man <span class="gradient">sehen will.</span></h1>
-        <p class="lead">Ausgewählte Aufnahmen aus der GlanzWerkstatt: Lack, Details, Werkstattmomente und bald auch kurze Video-Clips aus echten Aufbereitungen.</p>
+        <div class="eyebrow"><span class="dot"></span> Galerie · Fahrzeuge & Arbeiten</div>
+        <h1>Aufbereitung, die man <span class="gradient">sehen kann.</span></h1>
+        <p class="lead">Echte Fahrzeuge, echte Arbeitsschritte und Ergebnisse aus der GlanzWerkstatt in Alzey – nach Fahrzeug und Arbeitsschwerpunkt geordnet.</p>
         <div class="actions">
-          <a class="btn" href="#bilder">Bilder ansehen</a>
-          <a class="btn secondary" href="#videos">Videos ansehen</a>
+          <a class="btn" href="#showcase">Showcase ansehen</a>
+          <a class="btn secondary" href="#bilder">Fahrzeuge ansehen</a>
           <a class="btn secondary" href="index.html#kontakt">Termin anfragen</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="showcase">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>Showcase.</h2>
+          <p>59 Sekunden GlanzWerkstatt: ein kompakter Einblick in Fahrzeug, Finish und die Arbeitsschritte dazwischen.</p>
+        </div>
+        <div class="media-grid reveal">
+          <article class="media-card wide video-card showcase-card" aria-label="Showcase-Video mit 59 Sekunden">
+            <video controls preload="metadata" playsinline src="assets/videos/gallery/2026/showcase-59-sekunden.mp4"></video>
+            <span class="shine"></span>
+            <span class="tag">Showcase · 59 Sekunden</span>
+          </article>
         </div>
       </div>
     </section>
@@ -515,18 +545,32 @@
     <section class="section" id="bilder">
       <div class="container">
         <div class="section-head reveal">
-          <h2>Bilder.</h2>
-          <p>Die Galerie nutzt den Ordner <strong>assets/images/gallery</strong>. Alle Kacheln bekommen automatisch das Wasserzeichen @glanzwerkstatt-alzey als Overlay.</p>
+          <h2>Fahrzeuge.</h2>
+          <p>Mehrere Aufnahmen eines Fahrzeugs bleiben zusammen, damit der Unterschied zwischen Detail, Innenraum und Finish schnell erkennbar bleibt.</p>
+        </div>
+        <div class="media-grid reveal" id="porsche">
+          <article class="media-card wide" data-img="assets/images/gallery/2026/porsche-showroom-rear.jpg"><img loading="lazy" src="assets/images/gallery/2026/porsche-showroom-rear.jpg" alt="Porsche von hinten in der Werkstatt"><span class="shine"></span><span class="tag">Porsche · Finish</span></article>
+          <article class="media-card" data-img="assets/images/gallery/2026/porsche-side-detail.jpg"><img loading="lazy" src="assets/images/gallery/2026/porsche-side-detail.jpg" alt="Porsche Seitenpartie und Felge"><span class="shine"></span><span class="tag">Porsche · Detail</span></article>
+          <article class="media-card" data-img="assets/images/gallery/2026/porsche-rear-detail.jpg"><img loading="lazy" src="assets/images/gallery/2026/porsche-rear-detail.jpg" alt="Porsche Heckdetail"><span class="shine"></span><span class="tag">Porsche · Heck</span></article>
+          <article class="media-card" data-img="assets/images/gallery/2026/porsche-crest-detail.jpg"><img loading="lazy" src="assets/images/gallery/2026/porsche-crest-detail.jpg" alt="Porsche Wappen auf dem Lack"><span class="shine"></span><span class="tag">Porsche · Lackdetail</span></article>
+          <article class="media-card" data-img="assets/images/gallery/2026/porsche-hood-detail.jpg"><img loading="lazy" src="assets/images/gallery/2026/porsche-hood-detail.jpg" alt="Glänzende Porsche Motorhaube"><span class="shine"></span><span class="tag">Porsche · Lackfinish</span></article>
+          <article class="media-card" data-img="assets/images/gallery/2026/porsche-interior-rear-seat.jpg"><img loading="lazy" src="assets/images/gallery/2026/porsche-interior-rear-seat.jpg" alt="Gepflegter Porsche Innenraum im Fond"><span class="shine"></span><span class="tag">Porsche · Innenraum</span></article>
+          <article class="media-card" data-img="assets/images/gallery/2026/porsche-interior-footwell.jpg"><img loading="lazy" src="assets/images/gallery/2026/porsche-interior-footwell.jpg" alt="Porsche Fußraum und Einstiegsleiste"><span class="shine"></span><span class="tag">Porsche · Innenraum</span></article>
+          <article class="media-card" data-img="assets/images/gallery/2026/porsche-blue-hood.jpg"><img loading="lazy" src="assets/images/gallery/2026/porsche-blue-hood.jpg" alt="Blauer Porsche mit glänzendem Lack"><span class="shine"></span><span class="tag">Porsche · Glanz</span></article>
+          <article class="media-card" data-img="assets/images/gallery/2026/porsche-workshop.jpg"><img loading="lazy" src="assets/images/gallery/2026/porsche-workshop.jpg" alt="Blauer Porsche in der Werkstatt"><span class="shine"></span><span class="tag">Porsche · Werkstatt</span></article>
+          <article class="media-card video-card"><video controls preload="metadata" playsinline src="assets/videos/gallery/2026/porsche-aufbereitung.mp4"></video><span class="shine"></span><span class="tag">Porsche · Video</span></article>
+          <article class="media-card video-card"><video controls preload="metadata" playsinline src="assets/videos/gallery/2026/taycan-finish.mp4"></video><span class="shine"></span><span class="tag">Taycan · Finish</span></article>
+        </div>
+
+        <div class="section-head reveal" id="bmw" style="margin-top: 64px;">
+          <h2>BMW.</h2>
+          <p>Politur, Innenraum und Werkstattarbeit – unterschiedliche Schritte, nach Fahrzeug zusammengefasst.</p>
         </div>
         <div class="media-grid reveal">
-          <article class="media-card wide" data-img="assets/images/gallery/bmw-m4-coupe.jpg"><img loading="lazy" src="assets/images/gallery/bmw-m4-coupe.jpg" alt="BMW Coupé aufbereitet"><span class="shine"></span><span class="tag">Tiefenglanz</span></article>
-          <article class="media-card" data-img="assets/images/gallery/alfa-romeo-giulia-censored.jpg"><img loading="lazy" src="assets/images/gallery/alfa-romeo-giulia-censored.jpg" alt="Alfa Romeo Aufbereitung"><span class="shine"></span><span class="tag">Showroom Finish</span></article>
-          <article class="media-card" data-img="assets/images/gallery/corvette-front-censored.jpg"><img loading="lazy" src="assets/images/gallery/corvette-front-censored.jpg" alt="Corvette Front"><span class="shine"></span><span class="tag">Sportwagen Pflege</span></article>
-          <article class="media-card" data-img="assets/images/gallery/corvette-rear-censored.jpg"><img loading="lazy" src="assets/images/gallery/corvette-rear-censored.jpg" alt="Corvette Heck"><span class="shine"></span><span class="tag">Lack & Details</span></article>
-          <article class="media-card" data-img="assets/images/gallery/bmw-m2-front.jpg"><img loading="lazy" src="assets/images/gallery/bmw-m2-front.jpg" alt="BMW M2 vor der Werkstatt"><span class="shine"></span><span class="tag">Werkstattmoment</span></article>
-          <article class="media-card wide" data-img="assets/images/gallery/porsche-cayenne-censored.jpg"><img loading="lazy" src="assets/images/gallery/porsche-cayenne-censored.jpg" alt="Porsche Cayenne"><span class="shine"></span><span class="tag">Premium Service</span></article>
-          <article class="media-card" data-img="assets/images/gallery/bmw-lackdetail.jpg"><img loading="lazy" src="assets/images/gallery/bmw-lackdetail.jpg" alt="Lack Detail"><span class="shine"></span><span class="tag">Lackdetail</span></article>
-          <article class="media-card" data-img="assets/images/gallery/onlycars-brand-shot.jpg"><img loading="lazy" src="assets/images/gallery/onlycars-brand-shot.jpg" alt="GlanzWerkstatt Szene"><span class="shine"></span><span class="tag">Brand Moment</span></article>
+          <article class="media-card video-card"><video controls preload="metadata" playsinline poster="assets/videos/gallery/2026/bmw-final-poster.jpg" src="assets/videos/gallery/2026/bmw-final.mp4"></video><span class="shine"></span><span class="tag">BMW · Finish</span></article>
+          <article class="media-card video-card"><video controls preload="metadata" playsinline src="assets/videos/gallery/2026/bmw-e60-politur.mp4"></video><span class="shine"></span><span class="tag">BMW E60 · Politur</span></article>
+          <article class="media-card video-card"><video controls preload="metadata" playsinline src="assets/videos/gallery/2026/bmw-oelwechsel.mp4"></video><span class="shine"></span><span class="tag">BMW · Werkstatt</span></article>
+          <article class="media-card video-card"><video controls preload="metadata" playsinline poster="assets/videos/gallery/2026/m4-politur-poster.jpg" src="assets/videos/gallery/2026/m4-politur.mp4"></video><span class="shine"></span><span class="tag">BMW M4 · Politur</span></article>
         </div>
       </div>
     </section>
@@ -534,28 +578,19 @@
     <section class="section" id="videos">
       <div class="container">
         <div class="section-head reveal">
-          <h2>Videos.</h2>
-          <p>Der Video-Bereich ist vorbereitet. Neue Clips kommen später in <strong>assets/videos/gallery</strong> und erhalten im Layout ebenfalls automatisch das Wasserzeichen.</p>
+          <h2>Weitere Arbeiten.</h2>
+          <p>Weitere Fahrzeuge und Werkstattmomente aus den gelieferten Aufnahmen – jeweils als eigener Arbeitsschwerpunkt gekennzeichnet.</p>
         </div>
         <div class="media-grid reveal">
-          <article class="media-card">
-            <div class="video-placeholder"><div class="play">▶</div></div>
-            <span class="shine"></span>
-            <p class="placeholder-copy">Platzhalter für Vorher/Nachher-Clip. Datei später in assets/videos/gallery ablegen.</p>
-            <span class="tag">Video folgt</span>
-          </article>
-          <article class="media-card">
-            <div class="video-placeholder"><div class="play">▶</div></div>
-            <span class="shine"></span>
-            <p class="placeholder-copy">Platzhalter für Lackfinish oder Detailaufnahme.</p>
-            <span class="tag">Reel Slot</span>
-          </article>
-          <article class="media-card">
-            <div class="video-placeholder"><div class="play">▶</div></div>
-            <span class="shine"></span>
-            <p class="placeholder-copy">Platzhalter für Werkstattmoment oder Übergabe.</p>
-            <span class="tag">Coming soon</span>
-          </article>
+          <article class="media-card video-card"><video controls preload="metadata" playsinline src="assets/videos/gallery/2026/f150-aufbereitung.mp4"></video><span class="shine"></span><span class="tag">Ford F-150 · Aufbereitung</span></article>
+          <article class="media-card" data-img="assets/images/gallery/2026/ford-f150-front.jpg"><img loading="lazy" src="assets/images/gallery/2026/ford-f150-front.jpg" alt="Ford F-150 von vorne"><span class="shine"></span><span class="tag">Ford F-150 · Front</span></article>
+          <article class="media-card" data-img="assets/images/gallery/2026/ford-f150-front-detail.jpg"><img loading="lazy" src="assets/images/gallery/2026/ford-f150-front-detail.jpg" alt="Ford F-150 Frontdetail"><span class="shine"></span><span class="tag">Ford F-150 · Detail</span></article>
+          <article class="media-card" data-img="assets/images/gallery/2026/ford-f150-workshop.jpg"><img loading="lazy" src="assets/images/gallery/2026/ford-f150-workshop.jpg" alt="Ford F-150 vor der GlanzWerkstatt"><span class="shine"></span><span class="tag">Ford F-150 · Werkstatt</span></article>
+          <article class="media-card video-card"><video controls preload="metadata" playsinline src="assets/videos/gallery/2026/f-type-finish.mp4"></video><span class="shine"></span><span class="tag">F-Type · Finish</span></article>
+          <article class="media-card video-card"><video controls preload="metadata" playsinline src="assets/videos/gallery/2026/passat-aufbereitung.mp4"></video><span class="shine"></span><span class="tag">Passat · Aufbereitung</span></article>
+          <article class="media-card video-card"><video controls preload="metadata" playsinline src="assets/videos/gallery/2026/s7-finish.mp4"></video><span class="shine"></span><span class="tag">Audi S7 · Finish</span></article>
+          <article class="media-card video-card"><video controls preload="metadata" playsinline src="assets/videos/gallery/2026/x1-innenraum.mp4"></video><span class="shine"></span><span class="tag">BMW X1 · Innenraum</span></article>
+          <article class="media-card video-card"><video controls preload="metadata" playsinline src="assets/videos/gallery/2026/whatsapp-09-57.mp4"></video><span class="shine"></span><span class="tag">Werkstattmoment · Video</span></article>
         </div>
       </div>
     </section>
@@ -571,41 +606,90 @@
     </div>
   </footer>
 
-  <div class="modal" id="modal">
-    <button id="modalClose" aria-label="Galerie schließen">×</button>
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalTitle">
+    <h2 id="modalTitle" hidden>Galeriebild</h2>
+    <button id="modalClose" type="button" aria-label="Galerie schließen">×</button>
     <div class="modal-stage"><img id="modalImg" alt="Galerie Bild"></div>
   </div>
 
   <script>
+    const galleryMenuBtn = document.getElementById('galleryMenuBtn');
+    const galleryNavLinks = document.getElementById('galleryNavLinks');
+    const closeGalleryMenu = () => {
+      if (!galleryMenuBtn || !galleryNavLinks) return;
+      galleryNavLinks.classList.remove('open');
+      galleryMenuBtn.setAttribute('aria-expanded', 'false');
+      galleryMenuBtn.setAttribute('aria-label', 'Menü öffnen');
+      galleryMenuBtn.textContent = '☰';
+    };
+    galleryMenuBtn?.addEventListener('click', () => {
+      const isOpen = galleryNavLinks.classList.toggle('open');
+      galleryMenuBtn.setAttribute('aria-expanded', String(isOpen));
+      galleryMenuBtn.setAttribute('aria-label', isOpen ? 'Menü schließen' : 'Menü öffnen');
+      galleryMenuBtn.textContent = isOpen ? '×' : '☰';
+    });
+    galleryNavLinks?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeGalleryMenu));
+
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    const reveal = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          reveal.unobserve(entry.target);
-        }
-      });
-    }, { threshold: .14 });
-    document.querySelectorAll('.reveal').forEach((el) => reveal.observe(el));
-    setTimeout(() => {
-      document.querySelectorAll('.reveal').forEach((el) => el.classList.add('active'));
-    }, 1400);
+    const revealItems = [...document.querySelectorAll('.reveal')];
+    if ('IntersectionObserver' in window) {
+      const reveal = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            reveal.unobserve(entry.target);
+          }
+        });
+      }, { threshold: .14 });
+      revealItems.forEach((element) => reveal.observe(element));
+    } else {
+      revealItems.forEach((element) => element.classList.add('active'));
+    }
+    setTimeout(() => revealItems.forEach((element) => element.classList.add('active')), 1400);
 
     const modal = document.getElementById('modal');
     const modalImg = document.getElementById('modalImg');
+    const modalClose = document.getElementById('modalClose');
+    let lastFocusedCard = null;
+    const closeGalleryModal = () => {
+      if (!modal) return;
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('modal-open');
+      lastFocusedCard?.focus();
+    };
+    const openGalleryModal = (card) => {
+      if (!modal || !modalImg || !card.dataset.img) return;
+      lastFocusedCard = card;
+      modalImg.src = card.dataset.img;
+      modalImg.alt = card.querySelector('img')?.alt || 'Galeriebild GlanzWerkstatt';
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('modal-open');
+      modalClose?.focus();
+    };
+
     document.querySelectorAll('[data-img]').forEach((card) => {
-      card.addEventListener('click', () => {
-        modalImg.src = card.dataset.img;
-        modal.classList.add('show');
+      card.tabIndex = 0;
+      card.setAttribute('role', 'button');
+      card.addEventListener('click', () => openGalleryModal(card));
+      card.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openGalleryModal(card);
+        }
       });
     });
-    document.getElementById('modalClose').onclick = () => modal.classList.remove('show');
-    modal.addEventListener('click', (event) => {
-      if (event.target === modal) modal.classList.remove('show');
+    modalClose?.addEventListener('click', closeGalleryModal);
+    modal?.addEventListener('click', (event) => {
+      if (event.target === modal) closeGalleryModal();
     });
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') modal.classList.remove('show');
+      if (event.key === 'Escape') {
+        closeGalleryMenu();
+        if (modal?.classList.contains('show')) closeGalleryModal();
+      }
     });
   </script>
 </body>

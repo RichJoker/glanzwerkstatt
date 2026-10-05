@@ -71,6 +71,7 @@
       overflow-x: hidden;
       min-height: 100vh;
     }
+    body.modal-open { overflow: hidden; }
     body::before {
       content: "";
       position: fixed;
@@ -103,6 +104,10 @@
     }
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
+    :focus-visible {
+      outline: 3px solid var(--gold-bright);
+      outline-offset: 3px;
+    }
     section { padding: 96px 0; scroll-margin-top: 118px; }
     .container { width: min(var(--max), calc(100vw - 34px)); margin: auto; }
     .serif { font-family: Cinzel, Georgia, serif; }
@@ -657,6 +662,11 @@
     .row:last-child { border-bottom: 0; }
     .row span:last-child { font-weight: 950; color: #fff; text-align: right; white-space: nowrap; }
     .note { color: var(--muted); line-height: 1.65; margin-top: 18px; font-size: 14px; }
+    .note.selected-request {
+      color: #fff5d7;
+      border-left: 2px solid var(--gold);
+      padding-left: 12px;
+    }
 
     .cta {
       display: grid;
@@ -1200,7 +1210,7 @@
       <span class="brand-mark"><img src="assets/images/brand/logo-primary.jpg" alt="GlanzWerkstatt Logo"></span>
       <span>GlanzWerkstatt</span>
     </a>
-    <nav class="links" id="navLinks">
+    <nav class="links" id="navLinks" aria-label="Hauptnavigation">
       <a href="#leistungen">Leistungen</a>
       <a href="#pakete">Pakete</a>
       <a href="#ablauf">Ablauf</a>
@@ -1210,7 +1220,7 @@
       <a href="#rechtliches">Rechtliches</a>
     </nav>
     <a class="btn" href="#kontakt">Termin anfragen</a>
-    <button class="menu" id="menuBtn" aria-label="Menü öffnen">☰</button>
+    <button class="menu" id="menuBtn" type="button" aria-label="Menü öffnen" aria-controls="navLinks" aria-expanded="false">☰</button>
   </header>
 
   <main>
@@ -1272,7 +1282,7 @@
               <li>Aussaugen des Innenraums sowie der Teppiche (ohne Kofferraum)</li>
               <li>Nassreinigung aller Oberflächen sowie Displays, Spiegel und Scheiben</li>
             </ul>
-            <a class="btn secondary" href="#kontakt">Basis anfragen</a>
+            <a class="btn secondary" href="#kontakt" data-package="Innenraum Basis">Basis anfragen</a>
           </article>
           <article class="package-card featured">
             <span class="package-kicker">Gold</span>
@@ -1287,7 +1297,7 @@
               <li>Desinfektion des kompletten Innenraums</li>
               <li>Intensive Reinigung aller Displays, Spiegel und Scheiben</li>
             </ul>
-            <a class="btn" href="#kontakt">Gold anfragen</a>
+            <a class="btn" href="#kontakt" data-package="Innenraum Gold">Gold anfragen</a>
           </article>
           <article class="package-card">
             <span class="package-kicker">Diamant</span>
@@ -1297,7 +1307,7 @@
             <p class="package-detail">Die Stoffsitze werden gründlich shampooniert, sorgfältig ausgebürstet und anschließend mit einem Nasssauger tiefenwirksam gereinigt. Dadurch werden Verschmutzungen und Rückstände effektiv aus dem Sitzpolster gelöst und abgesaugt – für einen sichtbar gepflegten und hygienisch sauberen Innenraum.</p>
             <h4>Professionelle Lederreinigung &amp; Pflege</h4>
             <p class="package-detail">Die Ledersitze inklusive Lederlenkrad werden gründlich gereinigt und sorgfältig ausgebürstet, um Schmutz und Ablagerungen schonend zu entfernen. Anschließend wird eine hochwertige Lederpflegemilch aufgetragen. Diese pflegt das Leder, hält es geschmeidig und sorgt für ein gepflegtes, mattes Erscheinungsbild.</p>
-            <a class="btn secondary" href="#kontakt">Diamant anfragen</a>
+            <a class="btn secondary" href="#kontakt" data-package="Innenraum Diamant">Diamant anfragen</a>
           </article>
         </div>
       </div>
@@ -1324,21 +1334,21 @@
           <p>Fair kalkuliert und nachvollziehbar aufgebaut. Der finale Preis richtet sich nach Größe, Zustand und gewünschtem Ergebnis.</p>
         </div>
         <div class="tabs reveal">
-          <div class="tab-buttons">
-            <button class="active" data-tab="tab-aufbereitung">Aufbereitung</button>
-            <button data-tab="tab-lack">Lackpflege</button>
-            <button data-tab="tab-reifen">Reifen</button>
-            <button data-tab="tab-kfz">KFZ-Service</button>
-            <button data-tab="tab-extra">Extras</button>
+          <div class="tab-buttons" role="tablist" aria-label="Preisbereiche">
+            <button class="active" id="tab-button-aufbereitung" type="button" role="tab" aria-selected="true" aria-controls="tab-aufbereitung" tabindex="0" data-tab="tab-aufbereitung">Aufbereitung</button>
+            <button id="tab-button-lack" type="button" role="tab" aria-selected="false" aria-controls="tab-lack" tabindex="-1" data-tab="tab-lack">Lackpflege</button>
+            <button id="tab-button-reifen" type="button" role="tab" aria-selected="false" aria-controls="tab-reifen" tabindex="-1" data-tab="tab-reifen">Reifen</button>
+            <button id="tab-button-kfz" type="button" role="tab" aria-selected="false" aria-controls="tab-kfz" tabindex="-1" data-tab="tab-kfz">KFZ-Service</button>
+            <button id="tab-button-extra" type="button" role="tab" aria-selected="false" aria-controls="tab-extra" tabindex="-1" data-tab="tab-extra">Extras</button>
           </div>
-          <div class="tab-panel active" id="tab-aufbereitung">
+          <div class="tab-panel active" id="tab-aufbereitung" role="tabpanel" aria-labelledby="tab-button-aufbereitung">
             <div class="price-grid">
               <div class="price-card"><h3>Kleinwagen</h3><div class="row"><span>Handwäsche</span><span>ab 49 €</span></div><div class="row"><span>Innenraum Basis</span><span>ab 59 €</span></div><div class="row"><span>Innenraum Gold</span><span>ab 99 €</span></div><div class="row"><span>Innenraum Diamant</span><span>ab 169 €</span></div></div>
               <div class="price-card"><h3>Mittelklasse / Kombi</h3><div class="row"><span>Handwäsche</span><span>ab 59 €</span></div><div class="row"><span>Innenraum Basis</span><span>ab 69 €</span></div><div class="row"><span>Innenraum Gold</span><span>ab 119 €</span></div><div class="row"><span>Innenraum Diamant</span><span>ab 189 €</span></div></div>
               <div class="price-card"><h3>Oberklasse / SUV</h3><div class="row"><span>Handwäsche</span><span>ab 69 €</span></div><div class="row"><span>Innenraum Basis</span><span>ab 79 €</span></div><div class="row"><span>Innenraum Gold</span><span>ab 139 €</span></div><div class="row"><span>Innenraum Diamant</span><span>ab 209 €</span></div></div>
             </div>
           </div>
-          <div class="tab-panel" id="tab-lack">
+          <div class="tab-panel" id="tab-lack" role="tabpanel" aria-labelledby="tab-button-lack" hidden>
             <div class="price-grid">
               <div class="price-card"><h3>Basis</h3><div class="row"><span>Kleinwagen</span><span>ab 79 €</span></div><div class="row"><span>Mittelklasse / Kombi</span><span>ab 89 €</span></div><div class="row"><span>Oberklasse / SUV</span><span>ab 109 €</span></div></div>
               <div class="price-card"><h3>Gold</h3><div class="row"><span>Kleinwagen</span><span>ab 119 €</span></div><div class="row"><span>Mittelklasse / Kombi</span><span>ab 129 €</span></div><div class="row"><span>Oberklasse / SUV</span><span>ab 149 €</span></div></div>
@@ -1346,20 +1356,20 @@
             </div>
             <p class="note">Ab der Lack-Aufbereitung wird der Lack je nach Zustand mit geeigneten Schleif- und Poliermethoden aufbereitet.</p>
           </div>
-          <div class="tab-panel" id="tab-reifen">
+          <div class="tab-panel" id="tab-reifen" role="tabpanel" aria-labelledby="tab-button-reifen" hidden>
             <div class="price-grid">
               <div class="price-card"><h3>Montage</h3><div class="row"><span>Komplettradmontage Satz</span><span>ab 40 €</span></div><div class="row"><span>14-19 Zoll pro Rad</span><span>ab 15 €</span></div><div class="row"><span>20-24 Zoll pro Rad</span><span>ab 20 €</span></div></div>
               <div class="price-card"><h3>Service</h3><div class="row"><span>Wuchten bis 24 Zoll</span><span>ab 7,50 €</span></div><div class="row"><span>RDKS anlernen pro Rad</span><span>ab 10 €</span></div><div class="row"><span>RDKS montieren + anlernen</span><span>ab 15 €</span></div></div>
               <div class="price-card"><h3>Einlagerung</h3><div class="row"><span>Kompletträder pro Monat</span><span>ab 10 €</span></div><div class="row"><span>Felgen Instandsetzung</span><span>auf Anfrage</span></div></div>
             </div>
           </div>
-          <div class="tab-panel" id="tab-kfz">
+          <div class="tab-panel" id="tab-kfz" role="tabpanel" aria-labelledby="tab-button-kfz" hidden>
             <div class="price-grid">
               <div class="price-card"><h3>KFZ-Service</h3><div class="row"><span>Ölservice ohne Öl & Filter</span><span>ab 50 €</span></div><div class="row"><span>Fehlerspeicherabfrage</span><span>ab 20 €</span></div><div class="row"><span>Fahrzeug Check-up</span><span>ab 30 €</span></div></div>
               <div class="price-card"><h3>Inspektion</h3><div class="row"><span>Nach Herstellervorgabe</span><span>auf Anfrage</span></div><div class="row"><span>Zündkerzen, Luftfilter etc.</span><span>auf Anfrage</span></div></div>
             </div>
           </div>
-          <div class="tab-panel" id="tab-extra">
+          <div class="tab-panel" id="tab-extra" role="tabpanel" aria-labelledby="tab-button-extra" hidden>
             <div class="price-grid"><div class="price-card"><h3>Extras</h3><div class="row"><span>Cabriodach Pflege</span><span>ab 70 €</span></div><div class="row"><span>Geruchsbeseitigung</span><span>auf Anfrage</span></div><div class="row"><span>Sonderwünsche</span><span>auf Anfrage</span></div></div></div>
             <p class="note">Alle Preise sind Richtwerte und können je nach Fahrzeuggröße, Zustand und gewünschtem Umfang abweichen.</p>
           </div>
@@ -1378,7 +1388,7 @@
               <a class="btn secondary" href="tel:+4915128823940">Telefon öffnen</a>
               <a class="btn secondary" href="mailto:glanzwerkstatt.alzey@gmail.com?subject=Termin%20anfragen%20-%20GlanzWerkstatt">Mail öffnen</a>
             </div>
-            <p class="note">Tipp: Für eine genaue Einschätzung helfen Modell, Baujahr, gewünschte Leistung und Fotos vom aktuellen Zustand.</p>
+            <p class="note" id="requestHint">Tipp: Für eine genaue Einschätzung helfen Modell, Baujahr, gewünschte Leistung und Fotos vom aktuellen Zustand.</p>
           </div>
           <div class="contact-card">
             <div class="contact-item"><span>Adresse</span><strong>Karl-Heinz-Kipp-Straße 28<br>55232 Alzey</strong></div>
@@ -1493,7 +1503,7 @@
     </div>
   </footer>
 
-  <div class="cookie" id="cookie">
+  <div class="cookie" id="cookie" role="status" aria-live="polite">
     <p><strong>Cookies & Datenschutz:</strong> Diese Website nutzt notwendige Funktionen für Darstellung, Kontakt und Bedienung.</p>
     <button class="btn secondary" id="cookieReject">Nur notwendig</button>
     <button class="btn" id="cookieAccept">Akzeptieren</button>
@@ -1507,9 +1517,9 @@
     </a>
   </div>
   <div class="map-popover" id="mapPopover" aria-hidden="true">
-    <div class="map-box" role="dialog" aria-modal="true" aria-label="Google Maps Ansicht GlanzWerkstatt">
+    <div class="map-box" role="dialog" aria-modal="true" aria-labelledby="mapTitle">
       <div class="map-head">
-        <strong>GlanzWerkstatt Alzey</strong>
+        <strong id="mapTitle">GlanzWerkstatt Alzey</strong>
         <button class="map-close" id="mapClose" type="button" aria-label="Karte schließen">×</button>
       </div>
       <iframe
@@ -1525,75 +1535,178 @@
   </div>
 
   <script>
+    // Diese Daten bündeln die echten Kontaktwege und Leistungen der GlanzWerkstatt.
+    // Dadurch bleiben Links und Paket-Anfragen an einer Stelle nachvollziehbar.
+    const businessProfile = Object.freeze({
+      name: 'GlanzWerkstatt Alzey',
+      phone: '4915128823940',
+      whatsappMessage: 'Hallo GlanzWerkstatt Alzey, ich möchte einen Termin für die Fahrzeugaufbereitung anfragen.',
+      instagram: 'https://www.instagram.com/glanzwerkstatt_alzey'
+    });
+
+    const packageCatalog = Object.freeze({
+      basis: { name: 'Innenraum Basis', focus: 'regelmäßige Innenraumpflege' },
+      gold: { name: 'Innenraum Gold', focus: 'intensive Reinigung inklusive Tornado-Drucklufttechnik' },
+      diamant: { name: 'Innenraum Diamant', focus: 'Tiefenreinigung sowie Lederreinigung und -pflege' }
+    });
+
     const menuBtn = document.getElementById('menuBtn');
     const navLinks = document.getElementById('navLinks');
-    menuBtn.addEventListener('click', () => {
-      navLinks.classList.toggle('open');
-      menuBtn.textContent = navLinks.classList.contains('open') ? '×' : '☰';
-    });
-    document.querySelectorAll('.links a').forEach((link) => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-        menuBtn.textContent = '☰';
+    const closeMobileMenu = () => {
+      if (!menuBtn || !navLinks) return;
+      navLinks.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      menuBtn.setAttribute('aria-label', 'Menü öffnen');
+      menuBtn.textContent = '☰';
+    };
+
+    if (menuBtn && navLinks) {
+      menuBtn.addEventListener('click', () => {
+        const isOpen = navLinks.classList.toggle('open');
+        menuBtn.setAttribute('aria-expanded', String(isOpen));
+        menuBtn.setAttribute('aria-label', isOpen ? 'Menü schließen' : 'Menü öffnen');
+        menuBtn.textContent = isOpen ? '×' : '☰';
       });
+
+      document.addEventListener('click', (event) => {
+        if (navLinks.classList.contains('open') && !navLinks.contains(event.target) && event.target !== menuBtn) {
+          closeMobileMenu();
+        }
+      });
+    }
+
+    // Ankerziele werden geprüft, damit ein versehentlich falscher interner Link
+    // nicht zu einer stillen Sprung- oder Scroll-Fehlfunktion führt.
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        const targetId = link.getAttribute('href').slice(1);
+        if (!document.getElementById(targetId)) {
+          event.preventDefault();
+          return;
+        }
+        closeMobileMenu();
+      });
+    });
+
+    document.querySelectorAll('a[target="_blank"]').forEach((link) => {
+      link.rel = 'noopener noreferrer';
     });
 
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    document.querySelectorAll('.tab-buttons button').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-buttons button').forEach((button) => button.classList.remove('active'));
-        document.querySelectorAll('.tab-panel').forEach((panel) => panel.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById(btn.dataset.tab).classList.add('active');
+    // Paketlinks führen weiterhin zum Kontaktbereich, merken aber die Auswahl
+    // vor, damit der nächste Schritt für Kundinnen und Kunden eindeutig bleibt.
+    const requestHint = document.getElementById('requestHint');
+    document.querySelectorAll('[data-package]').forEach((link) => {
+      link.addEventListener('click', () => {
+        const selectedPackage = link.dataset.package;
+        const catalogEntry = Object.values(packageCatalog).find((item) => item.name === selectedPackage);
+        if (!requestHint || !catalogEntry) return;
+        requestHint.textContent = `${catalogEntry.name} ausgewählt (${catalogEntry.focus}) – nenne uns bitte Fahrzeugmodell, Baujahr und den aktuellen Zustand.`;
+        requestHint.classList.add('selected-request');
+      });
+    });
+
+    // WhatsApp öffnet mit einer sinnvollen ersten Nachricht statt mit einem leeren Chat.
+    const whatsappUrl = `https://wa.me/${businessProfile.phone}?text=${encodeURIComponent(businessProfile.whatsappMessage)}`;
+    document.querySelectorAll('a[href^="https://wa.me/"]').forEach((link) => {
+      link.href = whatsappUrl;
+    });
+
+    const tabs = [...document.querySelectorAll('[role="tab"]')];
+    const panels = [...document.querySelectorAll('[role="tabpanel"]')];
+    const activatePriceTab = (tab, moveFocus = false) => {
+      const panelId = tab.dataset.tab;
+      const panel = document.getElementById(panelId);
+      if (!panel) return;
+
+      tabs.forEach((button) => {
+        const active = button === tab;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-selected', String(active));
+        button.tabIndex = active ? 0 : -1;
+      });
+      panels.forEach((item) => {
+        const active = item === panel;
+        item.classList.toggle('active', active);
+        item.hidden = !active;
+      });
+      if (moveFocus) tab.focus();
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => activatePriceTab(tab));
+      tab.addEventListener('keydown', (event) => {
+        if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const nextIndex = event.key === 'Home' ? 0
+          : event.key === 'End' ? tabs.length - 1
+          : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+        activatePriceTab(tabs[nextIndex], true);
       });
     });
 
     const mapOpen = document.getElementById('mapOpen');
     const mapPopover = document.getElementById('mapPopover');
     const mapClose = document.getElementById('mapClose');
+    let lastFocusedElement = null;
     const closeMap = () => {
+      if (!mapPopover) return;
       mapPopover.classList.remove('show');
       mapPopover.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('modal-open');
+      lastFocusedElement?.focus();
     };
-    mapOpen.addEventListener('click', () => {
+    const openMap = () => {
+      if (!mapOpen || !mapPopover) return;
+      lastFocusedElement = document.activeElement;
       mapPopover.classList.add('show');
       mapPopover.setAttribute('aria-hidden', 'false');
-    });
-    mapClose.addEventListener('click', closeMap);
-    mapPopover.addEventListener('click', (event) => {
+      document.body.classList.add('modal-open');
+      mapClose?.focus();
+    };
+    mapOpen?.addEventListener('click', openMap);
+    mapClose?.addEventListener('click', closeMap);
+    mapPopover?.addEventListener('click', (event) => {
       if (event.target === mapPopover) closeMap();
     });
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') closeMap();
-    });
 
-    const reveal = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          reveal.unobserve(entry.target);
-        }
-      });
-    }, { threshold: .14 });
-    document.querySelectorAll('.reveal').forEach((el) => reveal.observe(el));
-    setTimeout(() => {
-      document.querySelectorAll('.reveal').forEach((el) => el.classList.add('active'));
-    }, 1400);
+    // Die Animationen sind optional; ohne IntersectionObserver bleibt trotzdem
+    // der komplette Inhalt sichtbar.
+    const revealItems = [...document.querySelectorAll('.reveal')];
+    if ('IntersectionObserver' in window) {
+      const reveal = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            reveal.unobserve(entry.target);
+          }
+        });
+      }, { threshold: .14 });
+      revealItems.forEach((element) => reveal.observe(element));
+    } else {
+      revealItems.forEach((element) => element.classList.add('active'));
+    }
+    setTimeout(() => revealItems.forEach((element) => element.classList.add('active')), 1400);
 
     const cookie = document.getElementById('cookie');
-    if (!localStorage.getItem('gwCookie')) {
-      setTimeout(() => cookie.classList.add('show'), 700);
-    }
-    document.getElementById('cookieAccept').onclick = () => {
-      localStorage.setItem('gwCookie', 'accepted');
-      cookie.classList.remove('show');
+    const readConsent = () => {
+      try { return localStorage.getItem('gwCookie'); } catch { return null; }
     };
-    document.getElementById('cookieReject').onclick = () => {
-      localStorage.setItem('gwCookie', 'necessary');
-      cookie.classList.remove('show');
+    const saveConsent = (value) => {
+      try { localStorage.setItem('gwCookie', value); } catch { /* private mode */ }
+      cookie?.classList.remove('show');
     };
+    if (cookie && !readConsent()) setTimeout(() => cookie.classList.add('show'), 700);
+    document.getElementById('cookieAccept')?.addEventListener('click', () => saveConsent('accepted'));
+    document.getElementById('cookieReject')?.addEventListener('click', () => saveConsent('necessary'));
 
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeMobileMenu();
+        if (mapPopover?.classList.contains('show')) closeMap();
+      }
+    });
   </script>
 </body>
 </html>
