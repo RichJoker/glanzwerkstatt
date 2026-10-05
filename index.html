@@ -320,6 +320,9 @@
       transition: filter .35s ease;
       transform-origin: center;
     }
+    .visual > img.hero-vehicle {
+      object-position: center 54%;
+    }
     .visual::after {
       content: "";
       position: absolute;
@@ -565,6 +568,9 @@
       object-fit: cover;
       object-position: center;
       transition: transform .45s ease, filter .45s ease;
+    }
+    .photo img.ford-vehicle {
+      object-position: center 48%;
     }
     .photo:hover img { transform: scale(1.035); filter: brightness(1.05) contrast(1.06); }
     .steps {
@@ -1242,7 +1248,7 @@
           </div>
         </div>
         <div class="visual" aria-label="GlanzWerkstatt Fahrzeugaufnahme">
-          <img src="assets/images/gallery/bmw-m4-coupe.jpg" alt="Aufbereiteter BMW vor der Werkstatt">
+          <img class="hero-vehicle" src="assets/images/gallery/2026/porsche-showroom-rear.jpg" alt="Schwarzer Porsche nach der Aufbereitung in der Werkstatt">
           <img class="hero-badge" src="assets/images/brand/logo-wide.jpg" alt="GlanzWerkstatt Logo">
           <div class="hero-card">
             <h3>Cleaner Look. Starke Wirkung.</h3>
@@ -1316,7 +1322,7 @@
     <section id="ablauf">
       <div class="container split">
         <div class="photo reveal">
-          <img src="assets/images/gallery/bmw-m2-front.jpg" alt="Aufbereitetes Fahrzeug vor der GlanzWerkstatt" loading="lazy">
+          <img class="ford-vehicle" src="assets/images/gallery/2026/ford-f150-front.jpg" alt="Ford F-150 nach der Aufbereitung" loading="lazy">
         </div>
         <div class="steps reveal">
           <div class="step"><div class="num">01</div><div><h3>Anfrage senden</h3><p>Fahrzeugmodell, gewünschte Leistung und groben Zustand mitteilen.</p></div></div>
